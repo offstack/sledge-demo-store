@@ -1,0 +1,48 @@
+<div class="flex flex-col-reverse w-full lg:w-[600px]">
+  <div class="mx-auto mt-[16px] lg:mt-[36px] w-full max-w-2xl block lg:max-w-none">
+    <div
+      class="flex overflow-x-auto grid-cols-3 gap-[20px] lg:gap-x-[calc(37px-2px)]"
+      aria-orientation="horizontal"
+      role="tablist">
+      {%- for media in product.media -%}
+        <button
+          id="tabs-0-panel-0"
+          class="relative cursor-default flex-none flex h-[100px] lg:h-[224px] w-[100px] lg:w-[223px] rounded-[16px] bg-dark2 hover:opacity-75"
+          aria-controls="tabs-0-panel-0"
+          role="tab"
+          type="button">
+          <span class="sr-only">Angled view</span>
+          <span class="absolute inset-0 overflow-hidden flex justify-center items-center">
+            <img
+              alt="{{ product.title }}"
+              decoding="async"
+              height="143"
+              loading="lazy"
+              src="{{ media.preview_image  | img_url: 'medium' }}"
+              width="143"
+              style="aspect-ratio:143/143"
+              class="h-full w-full object-cover object-center">
+          </span>
+        </button>
+      {%- endfor -%}
+    </div>
+  </div>
+  <div class="aspect-h-1 aspect-w-1 w-full">
+    <div
+      id="tabs-1-panel-1"
+      aria-labelledby="tabs-1-tab-1"
+      role="tabpanel"
+      tabindex="0"
+      class="flex justify-center items-center bg-dark2 rounded-[32px] h-auto lg:h-[600px]">
+      <img
+        alt="{{ product.title }}"
+        decoding="async"
+        height="473.579"
+        loading="lazy"
+        src="{{ product.featured_image.src | img_url: 'large' }}"
+        width="473.579"
+        style="aspect-ratio:473.579/473.579"
+        class="h-full w-full max-w-[473.579px] max-h-[473.579px] object-center object-contain">
+    </div>
+  </div>
+</div>

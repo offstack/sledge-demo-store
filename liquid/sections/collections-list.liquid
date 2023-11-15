@@ -1,0 +1,33 @@
+<div class="mt-[50px] lg:mt-[100px] max-w-[1170px] mx-auto px-5 lg:px-20 xl:px-0">
+  <div class="flex flex-wrap gap-x-[28px] gap-y-[30px] mt-[40px]">
+    {% assign collections = collections | sort: 'published_at' %}
+    {% for collection in collections %}
+      {% assign col_size = "" %}
+      {% assign image_size = "" %}
+      {% if forloop.index == 1 %}
+        {% assign col_size = "w-full md:w-[48%] xl:w-[672px] h-[380px]" %}
+        {% assign image_size = "w-[366px] h-[366px]" %}
+      {% elsif forloop.index == 2 %}
+        {% assign col_size = "w-full md:w-[48%] xl:w-[470px] h-[380px]" %}
+        {% assign image_size = "w-[394px] h-[365px]" %}
+      {% elsif forloop.index == 3 %}
+        {% assign col_size = "w-full md:w-[48%] xl:w-[470px] h-[380px]" %}
+        {% assign image_size = "w-[383px] h-[366px]" %}
+      {% elsif forloop.index == 4 %}
+        {% assign col_size = "w-full md:w-[48%] xl:w-[672px] h-[380px]" %}
+        {% assign image_size = "w-[353px] h-[353px]" %}
+      {% endif %}
+
+      {% assign image_class = 'absolute right-0 z-[-1] ' | append: image_size %}
+
+      <a href="{{ collection.url }}" class="bg-dark2 rounded-[16px] pl-[24px] pb-[24px] flex relative {{ col_size }} z-[2] transition-all duration-200 hover:opacity-75">
+        <div class="flex flex-col justify-end space-y-[12px]">
+          <h3 class="font-bold text-[24px] leading-[26.4px] tracking-[-0.48px]">{{ collection.title }}</h3>
+          <p class="font-inter text-[14px] font-normal leading-[22.4px] tracking-[-0.28px]">{{ collection.description }}</p>
+        </div>
+        {{ collection.image | image_url: width: collection.image.width | image_tag: alt: collection.title, srcset: nil, class: image_class }}
+      </a>
+    {% endfor %}
+  </div>
+
+</div>

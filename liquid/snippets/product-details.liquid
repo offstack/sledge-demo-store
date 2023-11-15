@@ -1,0 +1,28 @@
+<h2 class="max-w-[480px] font-bold text-[25px] lg:text-[40px] leading-[30px] lg:leading-[48px]">
+  {{ product.title }}</h2>
+<div class="mt-[12px] lg:mt-[16px] flex gap-[16px] items-center">
+  <h3 class="sr-only">Reviews</h3>
+  {% render 'sledge-product-review-rating' with product_id: product.id, rating_size: 'sm' %}
+  <div class="flex border-[1px] border-solid border-dark3 rounded-[24px] w-fit">
+    <div class="flex px-[10px] py-[4px] justify-center items-center">
+      <p class="text-dark4 font-inter font-medium text-[10px] leading-[16px] tracking-[-0.2px]">Vendor:
+        {{ product.vendor }}</p>
+    </div>
+  </div>
+</div>
+<div class="mt-[18px] lg:mt-[24px]">
+  <div class="max-w-[480px]">
+    <h2 class="sr-only">Description</h2>
+    <p class="font-inter font-medium text-[14px] text-dark4 lg:text-[16px] leading-[25.6px] tracking-[-0.32px]">
+      {{ product.description }}</p>
+  </div>
+</div>
+<div class="mt-[18px] lg:mt-[24px] flex items-center gap-[12px]">
+  <h2 class="sr-only">Product information</h2>
+  <p class="font-sledge-font-family-2 font-[700] text-sledge-color-text-primary text-[26px] lg:text-[32px] leading-normal lg:leading-[38.4px]">
+    ${{ product.selected_or_first_available_variant.price | money_without_trailing_zeros }}
+  </p>
+  <span class="font-sledge-font-family-1 line-through font-[400] text-[#FF7373] text-[12px] lg:text-[16px] leading-[25.6px] tracking-[-2%]">
+    {{ product.selected_or_first_available_variant.compare_at_price | money_without_trailing_zeros }}
+  </span>
+</div>

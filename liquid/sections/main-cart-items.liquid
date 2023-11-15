@@ -1,0 +1,387 @@
+<style>
+.cart__warnings {
+  display: none;
+}
+
+#shopify-section-main-cart-items .is-empty .title-wrapper-with-link, #shopify-section-main-cart-items .title-wrapper-with-link .cart__warnings, .is-empty .cart__contents{
+  display:none;
+}
+
+#shopify-section-main-cart-items .is-empty .cart__warnings{
+  display:flex;
+}
+
+#shopify-section-main-cart-footer #main-cart-footer.is-empty {
+  display: none;
+}
+
+</style>
+<cart-items class="page-width {% if cart == empty %} is-empty{% else %} section-{{ section.id }}-padding{% endif %}">
+  <div class="max-w-[1170px] mx-auto px-5 lg:px-20 xl:px-0">
+    <div class="title-wrapper-with-link flex justify-between">
+      <h2 class="text-[32px] leading-[35.2px] lg:text-[48px] font-bold lg:leading-[52.8px]">
+        Your Cart
+        </h2>
+      <div
+        class="lg:w-fit flex items-center text-white justify-center gap-x-6 lg:justify-start hover:opacity-70 transition duration-200 mt-0 !w-fit"
+      >
+        <a
+          class="bg-green text-black font-inter text-[14px] font-semibold leading-[15.4px] tracking-[-0.56px] py-[10px] md:py-[12px] px-[14px] md:px-[16px] rounded-[323.9px]"
+          href="/collections/all">
+            Continue shopping 
+            <svg class="inline ml-[5px]" width="17" height="17" viewBox="0 0 17 17" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M10.2373 4.00146L14.3333 8.09745L10.2373 12.1934" stroke="black" stroke-width="1.5" stroke-miterlimit="10" stroke-linecap="round" stroke-linejoin="round"/>
+              <path d="M2.86182 8.09766H14.2186" stroke="black" stroke-width="1.5" stroke-miterlimit="10" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg> 
+        </a>
+      </div>
+    </div>
+
+    <div class="cart__warnings flex flex-col space-y-7 justify-center items-center h-screen">
+      <h2 class="text-[32px] leading-[35.2px] lg:text-[48px] font-bold lg:leading-[52.8px]">Your cart is empty</h2>
+      <div
+        class="lg:w-fit flex items-center text-white justify-center gap-x-6 lg:justify-start hover:opacity-70 transition duration-200 mt-[8px] lg:mt-[12px] mb-4 !w-fit ">
+        <a class="bg-green text-black font-inter text-[12px] md:text-[14px] font-semibold leading-[15.4px] tracking-[-0.56px] py-[10px] md:py-[12px] px-[14px] md:px-[16px] rounded-[323.9px]"
+          href="/collections/all">
+          Continue shopping 
+          <svg class="inline ml-[5px]" width="17" height="17" viewBox="0 0 17 17" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M10.2373 4.00146L14.3333 8.09745L10.2373 12.1934" stroke="black" stroke-width="1.5" stroke-miterlimit="10" stroke-linecap="round" stroke-linejoin="round"/>
+            <path d="M2.86182 8.09766H14.2186" stroke="black" stroke-width="1.5" stroke-miterlimit="10" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg> 
+        </a>
+      </div>
+    </div>
+ 
+    <div
+      class="lg:w-fit flex items-center text-white justify-center gap-x-6 lg:justify-start hover:opacity-70 transition duration-200 mt-[20px] !w-fit ">
+      <button style="display: none;" type="button" id="btn-multiple-remove"
+        class="text-red2 font-inter text-[14px] font-semibold leading-[15.4px] tracking-[-0.28px] py-[12px] px-[16px] rounded-[360px] disabled:opacity-70 bg-[#D72C0D1A]">Remove
+        Selected
+      </button>
+    </div>
+
+    <form action="{{ routes.cart_url }}" class="cart__contents critical-hidden hidden sm:flex" method="post" id="cart">
+      <div class="cart__items mt-8 w-full" id="main-cart-items" data-id="{{ section.id }}">
+          <div class="js-contents min-w-full py-2 align-middle gap-[40px] flex flex-col overflow-x-auto">
+              <table class="cart-items min-w-full divide-y divide-dark6">
+                  <thead>
+                      <tr>
+                        <th scope="col"
+                          class="font-inter font-medium text-[14px] leading-[22.4px] tracking-[-0.28px] text-dark4 text-left pb-[10px]">
+                        </th>
+                        <th scope="col"
+                          class="font-inter font-medium text-[14px] leading-[22.4px] tracking-[-0.28px] text-dark4 text-left pb-[10px] pl-[15px]">
+                          Product
+                        </th>
+                        <th scope="col"
+                          class="font-inter font-medium text-[14px] leading-[22.4px] tracking-[-0.28px] text-dark4 text-left pl-[20px] pb-[10px]">
+                          Quantity
+                        </th>
+                        <th scope="col"
+                          class="font-inter font-medium text-[14px] leading-[22.4px] tracking-[-0.28px] text-dark4 text-left pb-[10px]">
+                          Price
+                        </th>
+                      </tr>
+                  </thead>
+                  <tbody class="divide-y divide-dark6 bg-dark">
+                      {%- for item in cart.items -%}
+                          <tr class="cart-item" id="CartItem-{{ item.index | plus: 1 }}">
+                            <input class="item-cart-variant_id" type="hidden" value="{{ item.variant_id }}">
+                            <td class="whitespace-nowrap">
+                              <div class="flex items-center lg:pl-[4px]">
+                                <input id="{{ item.id }}" type="checkbox" value="{{ item.variant_id }}"
+                                  class="custom-checkbox bg-transparent checked:bg-green h-[20px] w-[20px] text-green rounded-[4px] cursor-pointer focus:ring-green"
+                                  name="item-id" autocomplete="off" />
+                              </div>
+                            </td>
+                            <td class="whitespace-nowrap py-5 pl-4 pr-3 text-sm">
+                              <div class="flex items-center gap-[32px]">
+                                <a class="flex-shrink-0 flex justify-center items-center mr-[15px] md:mr-[32px] bg-sledge-color-grey-4 rounded-[24px] hover:opacity-75"
+                                  href="{{ item.url }}"><img src="{{ item.image | image_url: width: 300 }}"
+                                    alt="{{ item.title }}"
+                                    class="w-[90px] h-[90px] lg:w-[120px] lg:h-[120px] object-cover object-center" /></a>
+                                <div>
+                                  <h5 class="font-bold text-[20px] leading-[24px] text-white product-title">
+                                    {{ item.title }}
+                                  </h5>
+                                  <p
+                                    class="text-dark4 text-[14px] leading-[22.4px] tracking-[-0.28px] mt-[12px] mb-[7px]">
+                                    {% if item.vendor != blank %} Vendor: {{ item.vendor }} {% endif %}
+                                    {% if item.sku != blank %} | SKU: {{ item.sku }} {% endif %}
+                                  </p>
+                                  {% render 'sledge-product-review-rating' with product: item, rating_size: 'xs' %}
+                                </div>
+                              </div>
+                            </td>
+                            <td class="whitespace-nowrap min-w-[120px] lg:min-w-fit">
+                              <div class="w-fit">
+                                <label for="Quantity" class="sr-only">Quantity</label>
+                                <quantity-input
+                                  class="quantity flex items-center border border-dark6 rounded-[8px] py-[4px] px-[8px]">
+                                  <button
+                                    class="quantity__button no-js-hidden flex justify-center items-center text-[#393D4E] w-[16px] h-[16px] transition hover:opacity-75"
+                                    name="minus" type="button">
+                                    -
+                                  </button>
+                                  <input
+                                    class="quantity__input bg-transparent font-inter text-white !p-0 text-[12px] leading-[15px] tracking-[-0.02em] md:text-[14px] max-w-[38px] border-transparent text-center [-moz-appearance:_textfield] sm:text-sm [&amp;::-webkit-outer-spin-button]:m-0 [&amp;::-webkit-outer-spin-button]:appearance-none [&amp;::-webkit-inner-spin-button]:m-0 [&amp;::-webkit-inner-spin-button]:appearance-none focus:border-none focus:box-shadow-none"
+                                    type="number" name="updates[]" value="{{ item.quantity }}" min="0"
+                                    aria-label="{{ 'products.product.quantity.input_label' | t: product: item.product.title | escape }}"
+                                    autocomplete="off" id="Quantity-{{ item.index | plus: 1 }}" data-index="{{ item.index | plus: 1 }}">
+                                  <button
+                                    class="quantity__button no-js-hidden flex justify-center items-center text-[#393D4E] w-[16px] h-[16px] transition hover:opacity-75"
+                                    name="plus" type="button">
+                                    +
+                                  </button>
+                                </quantity-input>
+                              </div>
+                            </td>
+
+                            <td class="cart-item__totals right whitespace-nowrap min-w-[120px] lg:min-w-fit">
+                              <div class="cart-item__price-wrapper">
+                                {%- if item.original_line_price != item.final_line_price -%}
+                                <dl class="cart-item__discounted-prices">
+                                  <dt class="visually-hidden">
+                                    {{ 'products.product.price.regular_price' | t }}
+                                  </dt>
+                                  <dd>
+                                    <s class="cart-item__old-price price price--end">
+                                      {{ item.original_line_price | money }}
+                                    </s>
+                                  </dd>
+                                  <dt class="visually-hidden">
+                                    {{ 'products.product.price.sale_price' | t }}
+                                  </dt>
+                                  <dd class="price price--end">
+                                    {{ item.final_line_price | money }}
+                                  </dd>
+                                </dl>
+                                {%- else -%}
+                                <span
+                                  class="price price--end font-sledge-font-family-2 text-[28px] md:text-[32px] leading-[38px] text-sledge-color-text-primary">
+                                  <strong>${{ item.original_line_price | money_without_trailing_zeros }}</strong>
+                                </span>
+                                {%- endif -%}
+
+                                {%- if item.variant.available and item.unit_price_measurement -%}
+                                <div class="unit-price caption">
+                                  <span class="visually-hidden">{{ 'products.product.price.unit_price' | t }}</span>
+                                  {{ item.variant.unit_price | money }}
+                                  <span aria-hidden="true">/</span>
+                                  <span
+                                    class="visually-hidden">&nbsp;{{ 'accessibility.unit_price_separator' | t }}&nbsp;</span>
+                                  {%- if item.variant.unit_price_measurement.reference_value != 1 -%}
+                                  {{- item.variant.unit_price_measurement.reference_value -}}
+                                  {%- endif -%}
+                                  {{ item.variant.unit_price_measurement.reference_unit }}
+                                </div>
+                                {%- endif -%}
+                              </div>
+                            </td>
+                            <td class="whitespace-nowrap min-w-[60px] lg:min-w-fit">
+                              <cart-remove-button id="Remove-{{ item.index | plus: 1 }}"
+                                data-index="{{ item.index | plus: 1 }}">
+                                <a href="{{ item.url_to_remove }}"
+                                  class="button button--tertiary bg-transparent hover:text-white hover:opacity-75 rounded-md font-small text-center my-2 max-w-xl leading-none w-10 h-10 flex items-center justify-center"
+                                  aria-label="{{ 'sections.cart.remove_title' | t: title: item.title }}">
+                                  <svg width="24" height="24" viewBox="0 0 24 24" fill="none"
+                                    xmlns="http://www.w3.org/2000/svg">
+                                    <path fill-rule="evenodd" clip-rule="evenodd"
+                                      d="M19.3846 8.72C19.7976 8.754 20.1056 9.115 20.0726 9.528C20.0666 9.596 19.5246 16.307 19.2126 19.122C19.0186 20.869 17.8646 21.932 16.1226 21.964C14.7896 21.987 13.5036 22 12.2466 22C10.8916 22 9.5706 21.985 8.2636 21.958C6.5916 21.925 5.4346 20.841 5.2456 19.129C4.9306 16.289 4.3916 9.595 4.3866 9.528C4.3526 9.115 4.6606 8.753 5.0736 8.72C5.4806 8.709 5.8486 8.995 5.8816 9.407C5.88479 9.45041 6.10514 12.184 6.34526 14.8887L6.39349 15.4285C6.51443 16.7728 6.63703 18.0646 6.7366 18.964C6.8436 19.937 7.3686 20.439 8.2946 20.458C10.7946 20.511 13.3456 20.514 16.0956 20.464C17.0796 20.445 17.6116 19.953 17.7216 18.957C18.0316 16.163 18.5716 9.475 18.5776 9.407C18.6106 8.995 18.9756 8.707 19.3846 8.72ZM14.3454 2.00031C15.2634 2.00031 16.0704 2.61931 16.3074 3.5063L16.5614 4.7673C16.6435 5.18068 17.0062 5.48256 17.4263 5.48919L20.708 5.4893C21.122 5.4893 21.458 5.8253 21.458 6.2393C21.458 6.6533 21.122 6.9893 20.708 6.9893L17.4556 6.98915C17.4505 6.98925 17.4455 6.9893 17.4404 6.9893L17.416 6.9883L7.04162 6.98918C7.03355 6.98926 7.02548 6.9893 7.0174 6.9893L7.002 6.9883L3.75 6.9893C3.336 6.9893 3 6.6533 3 6.2393C3 5.8253 3.336 5.4893 3.75 5.4893L7.031 5.4883L7.13202 5.48191C7.50831 5.43309 7.82104 5.1473 7.8974 4.7673L8.1404 3.5513C8.3874 2.61931 9.1944 2.00031 10.1124 2.00031H14.3454ZM14.3454 3.5003H10.1124C9.8724 3.5003 9.6614 3.6613 9.6004 3.8923L9.3674 5.0623C9.33779 5.2105 9.29467 5.35332 9.23948 5.48957H15.2186C15.1634 5.35332 15.1201 5.2105 15.0904 5.0623L14.8474 3.8463C14.7964 3.6613 14.5854 3.5003 14.3454 3.5003Z"
+                                      fill="#F85538"></path>
+                                  </svg>
+                                </a>
+                              </cart-remove-button>
+                            </td>
+                          </tr>
+                      {%- endfor -%}
+                  </tbody>
+              </table>
+          </div>
+      </div>
+    </form>
+    <form action="{{ routes.cart_url }}" class="cart__contents critical-hidden flex sm:hidden" method="post" id="cart">
+      <div class="cart__items" id="main-cart-items-mobile" data-id="{{ section.id }}">
+        <div class="js-contents-mobile">
+          <div class="cart-items flex overflow-x-hidden min-w-full py-2 align-middle gap-[25px] flex-col pt-7 mt-[12px]">
+              {%- for item in cart.items -%}
+                <div id="CartItem-{{ item.index | plus: 1 }}" class="cart-item flex gap-[16px]">
+                  <input class="item-cart-variant_id" type="hidden" value="{{ item.variant_id }}">
+                  <div class="flex gap-[16px] min-w-[116px]">
+                    <input id="{{ item.id }}" type="checkbox" value="{{ item.variant_id }}"
+                      class="custom-checkbox ml-[4px] mt-[34px] bg-transparent checked:bg-green h-[20px] w-[20px] text-green rounded-[4px] cursor-pointer focus:ring-green"
+                      name="item-id" autocomplete="off" />
+                      <a class="flex-shrink-0 flex h-fit justify-center items-center mr-[15px] md:mr-[32px] bg-sledge-color-grey-4 rounded-[24px] hover:opacity-75"
+                        href="{{ item.url }}"><img src="{{ item.image | image_url: width: 300 }}"
+                        alt="{{ item.title }}"
+                        class="w-[80px] h-[80px] object-cover object-center" />
+                      </a>
+                  </div>
+                  <div class="flex flex-col w-full">
+                    <div>
+                      <h5 class="font-bold text-[18px] leading-[21.6px] text-white product-title">
+                        {{ item.title }}
+                      </h5>
+                      <p class="text-dark4 text-[12px] leading-[19.2px] tracking-[-0.24px] mt-[8px] mb-[4px]">
+                        {% if item.vendor != blank %} Vendor: {{ item.vendor }} {% endif %}
+                        {% if item.sku != blank %} | SKU: {{ item.sku }} {% endif %}
+                      </p>
+                      {% render 'sledge-product-review-rating' with product: item, rating_size: 'xs' %}
+                    </div>
+                    <div class="flex w-full items-center mt-[14px]">
+                      <div class="cart-item__price-wrapper">
+                        {%- if item.original_line_price != item.final_line_price -%}
+                        <dl class="cart-item__discounted-prices">
+                          <dt class="visually-hidden">
+                            {{ 'products.product.price.regular_price' | t }}
+                          </dt>
+                          <dd>
+                            <s class="cart-item__old-price price price--end">
+                              {{ item.original_line_price | money }}
+                            </s>
+                          </dd>
+                          <dt class="visually-hidden">
+                            {{ 'products.product.price.sale_price' | t }}
+                          </dt>
+                          <dd class="price price--end">
+                            {{ item.final_line_price | money }}
+                          </dd>
+                        </dl>
+                        {%- else -%}
+                        <span
+                          class="price price--end text-[24px] leading-[28.8px] font-[500] font-inter">
+                          <strong>${{ item.original_line_price | money_without_trailing_zeros }}</strong>
+                        </span>
+                        {%- endif -%}
+          
+                        {%- if item.variant.available and item.unit_price_measurement -%}
+                        <div class="unit-price caption">
+                          <span class="visually-hidden">{{ 'products.product.price.unit_price' | t }}</span>
+                          {{ item.variant.unit_price | money }}
+                          <span aria-hidden="true">/</span>
+                          <span
+                            class="visually-hidden">&nbsp;{{ 'accessibility.unit_price_separator' | t }}&nbsp;</span>
+                          {%- if item.variant.unit_price_measurement.reference_value != 1 -%}
+                          {{- item.variant.unit_price_measurement.reference_value -}}
+                          {%- endif -%}
+                          {{ item.variant.unit_price_measurement.reference_unit }}
+                        </div>
+                        {%- endif -%}
+                      </div>
+                      <div class="flex gap-[16px] items-center ml-auto">
+                        <div class="w-fit">
+                          <label for="Quantity" class="sr-only">Quantity</label>
+                          <quantity-input
+                            class="quantity flex items-center border border-dark6 rounded-[8px] py-[7px] px-[8px]">
+                            <button
+                              class="quantity__button no-js-hidden flex justify-center items-center text-[#393D4E] w-[16px] h-[16px] transition hover:opacity-75"
+                              name="minus" type="button">
+                              -
+                            </button>
+                            <input
+                              class="quantity__input bg-transparent font-inter text-white !p-0 text-[12px] leading-[15px] tracking-[-0.02em] md:text-[14px] max-w-[38px] border-transparent text-center [-moz-appearance:_textfield] sm:text-sm [&amp;::-webkit-outer-spin-button]:m-0 [&amp;::-webkit-outer-spin-button]:appearance-none [&amp;::-webkit-inner-spin-button]:m-0 [&amp;::-webkit-inner-spin-button]:appearance-none focus:border-none focus:box-shadow-none"
+                              type="number" name="updates[]" value="{{ item.quantity }}" min="0"
+                              aria-label="{{ 'products.product.quantity.input_label' | t: product: item.product.title | escape }}"
+                              autocomplete="off" id="Quantity-{{ item.index | plus: 1 }}" data-index="{{ item.index | plus: 1 }}">
+                            <button
+                              class="quantity__button no-js-hidden flex justify-center items-center text-[#393D4E] w-[16px] h-[16px] transition hover:opacity-75"
+                              name="plus" type="button">
+                              +
+                            </button>
+                          </quantity-input>
+                        </div>
+                        <cart-remove-button id="Remove-{{ item.index | plus: 1 }}"
+                          data-index="{{ item.index | plus: 1 }}">
+                          <a href="{{ item.url_to_remove }}"
+                            class="button button--tertiary bg-transparent hover:text-white hover:opacity-75 rounded-md font-small text-center my-2 max-w-xl leading-none w-10 h-10 flex items-center justify-center"
+                            aria-label="{{ 'sections.cart.remove_title' | t: title: item.title }}">
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none"
+                              xmlns="http://www.w3.org/2000/svg">
+                              <path fill-rule="evenodd" clip-rule="evenodd"
+                                d="M19.3846 8.72C19.7976 8.754 20.1056 9.115 20.0726 9.528C20.0666 9.596 19.5246 16.307 19.2126 19.122C19.0186 20.869 17.8646 21.932 16.1226 21.964C14.7896 21.987 13.5036 22 12.2466 22C10.8916 22 9.5706 21.985 8.2636 21.958C6.5916 21.925 5.4346 20.841 5.2456 19.129C4.9306 16.289 4.3916 9.595 4.3866 9.528C4.3526 9.115 4.6606 8.753 5.0736 8.72C5.4806 8.709 5.8486 8.995 5.8816 9.407C5.88479 9.45041 6.10514 12.184 6.34526 14.8887L6.39349 15.4285C6.51443 16.7728 6.63703 18.0646 6.7366 18.964C6.8436 19.937 7.3686 20.439 8.2946 20.458C10.7946 20.511 13.3456 20.514 16.0956 20.464C17.0796 20.445 17.6116 19.953 17.7216 18.957C18.0316 16.163 18.5716 9.475 18.5776 9.407C18.6106 8.995 18.9756 8.707 19.3846 8.72ZM14.3454 2.00031C15.2634 2.00031 16.0704 2.61931 16.3074 3.5063L16.5614 4.7673C16.6435 5.18068 17.0062 5.48256 17.4263 5.48919L20.708 5.4893C21.122 5.4893 21.458 5.8253 21.458 6.2393C21.458 6.6533 21.122 6.9893 20.708 6.9893L17.4556 6.98915C17.4505 6.98925 17.4455 6.9893 17.4404 6.9893L17.416 6.9883L7.04162 6.98918C7.03355 6.98926 7.02548 6.9893 7.0174 6.9893L7.002 6.9883L3.75 6.9893C3.336 6.9893 3 6.6533 3 6.2393C3 5.8253 3.336 5.4893 3.75 5.4893L7.031 5.4883L7.13202 5.48191C7.50831 5.43309 7.82104 5.1473 7.8974 4.7673L8.1404 3.5513C8.3874 2.61931 9.1944 2.00031 10.1124 2.00031H14.3454ZM14.3454 3.5003H10.1124C9.8724 3.5003 9.6614 3.6613 9.6004 3.8923L9.3674 5.0623C9.33779 5.2105 9.29467 5.35332 9.23948 5.48957H15.2186C15.1634 5.35332 15.1201 5.2105 15.0904 5.0623L14.8474 3.8463C14.7964 3.6613 14.5854 3.5003 14.3454 3.5003Z"
+                                fill="#F85538"></path>
+                            </svg>
+                          </a>
+                        </cart-remove-button>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <hr class="h-[0.332px] border-dark6" />  
+              {%- endfor -%}
+            </div>
+          </div>
+        </div>
+    </form>
+  </div>
+</cart-items>
+
+<script>
+  window.onload = () => {
+    const multipleRemoveCart = () => {
+      let lines = {};
+      document.querySelectorAll('input[name="item-id"]:checked').forEach((el, index) => {
+        lines[el.value] = 0
+      })
+      let linesUpdates = {
+        'updates': lines
+      }
+      fetch(window.Shopify.routes.root + 'cart/update.js', {
+          method: 'POST',
+          headers: {
+            'Accept': 'application/json, text/plain, */*',
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify(linesUpdates)
+        }).then(res => res.json())
+        .then(res => window.location.reload());
+    }
+
+    document.getElementById('btn-multiple-remove').addEventListener('click', multipleRemoveCart);
+
+    document.querySelectorAll('.custom-checkbox').forEach((el, index) => {
+      var multipleRemoveButton = document.getElementById('btn-multiple-remove')
+
+      el.addEventListener('change', (event) => {
+        if (!document.querySelectorAll('input[name="item-id"]:checked').length) {
+          multipleRemoveButton.style.display = 'none'
+        } else {
+          multipleRemoveButton.style.display = 'block'
+        }
+      })
+    })
+  }
+</script>
+  
+  {% schema %}
+    {
+      "name": "t:sections.main-cart-items.name",
+      "settings": [
+        {
+          "type": "header",
+          "content": "t:sections.all.padding.section_padding_heading"
+        },
+        {
+          "type": "range",
+          "id": "padding_top",
+          "min": 0,
+          "max": 100,
+          "step": 4,
+          "unit": "px",
+          "label": "t:sections.all.padding.padding_top",
+          "default": 36
+        },
+        {
+          "type": "range",
+          "id": "padding_bottom",
+          "min": 0,
+          "max": 100,
+          "step": 4,
+          "unit": "px",
+          "label": "t:sections.all.padding.padding_bottom",
+          "default": 36
+        }
+      ]
+    }
+    {% endschema %}
+    

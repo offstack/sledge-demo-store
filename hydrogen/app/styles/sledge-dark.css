@@ -1,0 +1,1015 @@
+  /*badge*/
+  body #sledge-icon-heart-line {
+    fill: white;
+  }
+
+  body .sledge-icon__search svg {
+    margin-top: -1px;
+  }
+  body .sledge-wishlist__badge-counter.sledge-wishlist__badge-counter-header-menu,
+  body .cart-count-bubble {
+    color: #FFF;
+    font-family: inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont;
+    font-size: 8px;
+    font-style: normal;
+    font-weight: 600;
+    line-height: 8.8px;
+    letter-spacing: -0.16px;
+  }
+
+  /*Trigger*/
+  body .sledge__search-input-field-wrapper {
+    background: transparent;
+    border: 1px solid #212121;
+  }
+
+  body .sledge__search-input-field-wrapper input {
+    color: #767676 !important;
+  }
+
+  body .sledge__search-input-field-wrapper .sledge-icon__search svg path {
+    fill: #767676;
+  }
+
+  /* Dropdown */
+  body .sledge__select-field-option-content {
+    background: transparent;
+  }
+
+  body .sledge__select-field-option-content {
+    border: 0;
+  }
+
+  body .sledge__select-field-option li {
+    background: #111;
+    color: #767676;
+    padding: 6px 16px;
+    font-family: inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont;
+    font-size: 14px;
+    line-height: 15.4px;
+    letter-spacing: -0.28px;
+  }
+
+  body .sledge__select-field-option li:last-of-type {
+    padding-bottom: 16px;
+  }
+
+  body .sledge__select-field-option li:hover,
+  body .sledge__select-field-option li[data-selected="true"] {
+    color: #43C6AC;
+  }
+
+  body .sledge-wishlist__trigger {
+    background: #070707;
+  }
+
+  body .sledge__dialog-content,
+  body .sledge__alert-dialog-content {
+    background: #111;
+  }
+
+  body.template-page .sledge__dialog-content .IconButton[aria-label="Close"] {
+    background: #070707;
+  }
+
+  body .sledge__dialog-content h2.sledge__dialog-title,
+  body .sledge__alert-dialog-content h2.sledge__alert-dialog-title {
+    color: #fff;
+  }
+
+  body .sledge-wishlist__widget-box-copy {
+    background: #070707;
+    color: #767676;
+  }
+
+  body .sledge-wishlist__widget-box-copy-icon {
+    background: transparent;
+  }
+
+  body .sledge-wishlist__widget-box-copy-icon svg {
+    display: none;
+  }
+
+  body .sledge-wishlist__widget-box-copy-icon:before {
+    content: url("data:image/svg+xml, %3Csvg width='24' height='24' viewBox='0 0 24 24' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M16 12.9V17.1C16 20.6 14.6 22 11.1 22H6.9C3.4 22 2 20.6 2 17.1V12.9C2 9.4 3.4 8 6.9 8H11.1C14.6 8 16 9.4 16 12.9Z' stroke='%23767676' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'/%3E%3Cpath d='M22 6.9V11.1C22 14.6 20.6 16 17.1 16H16V12.9C16 9.4 14.6 8 11.1 8H8V6.9C8 3.4 9.4 2 12.9 2H17.1C20.6 2 22 3.4 22 6.9Z' stroke='%23767676' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E ");
+  }
+
+  body .sledge__alert-dialog-description {
+    color: #767676;
+  }
+
+  body .sledge__alert-dialog-content .sledge__alert-dialog-button.sledge__alert-dialog-button-cancel {
+    background-color: transparent;
+  }
+
+  body .sledge-wishlist__widget-alert {
+    background-color: #0B1816;
+  }
+
+  body .sledge-wishlist__widget-alert {
+    border-color: #43C6AC;
+  }
+
+  body .sledge-wishlist__widget-alert .sledge-wishlist__widget-alert-text,
+  body .sledge-wishlist__widget-alert .sledge-wishlist__widget-alert-link {
+    color: #43C6AC;
+  }
+
+  body .sledge-wishlist__widget-alert .sledge-wishlist__widget-alert-text,
+  body .sledge-wishlist__widget-alert .sledge-wishlist__widget-alert-link {
+    font-size: 14px;
+    font-style: normal;
+    font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont;
+    font-weight: 400;
+    line-height: 22.4px;
+    letter-spacing: -0.28px;
+  }
+
+  body .sledge__select-field-wrapper button {
+    background: transparent !important;
+    border-color: #212121 !important;
+    color: #767676 !important;
+  }
+
+  /* Product Card */
+  body .product-card #sledge-icon-heart-line {
+    fill: #767676;
+  }
+
+  /* Collection */
+  #Arrow---Down-2 > #Stroke-1 {
+    fill: #767676;
+  }
+
+  body .sledge-instant-search__result-filter-item-refine-selected {
+    background-color: #121212;
+    color: #767676 !important;
+  }
+
+  body .sledge__checkbox-wrapper button[data-state="checked"] + label {
+    color: white !important;
+  }
+
+  body .sledge__checkbox-wrapper .sledge__checkbox-label:hover,
+  body .sledge__radio-group-wrapper .sledge__radio-group-label:hover {
+    color: #43C6AC !important;
+  }
+
+  body .sledge__checkbox-wrapper .sledge__checkbox-label,
+  body .sledge__radio-group-wrapper .sledge__radio-group-label {
+    color: #767676 !important;
+    text-transform: capitalize !important;
+  }
+
+  body .sledge__radio-group-item {
+    background-color: transparent
+  }
+
+  body .sledge__radio-group-item {
+    border-color: #212121;
+  }
+
+  body .sledge__radio-group-item[data-state="checked"] {
+    border-color: #43C6AC;
+  }
+
+  body .sledge__radio-group-indicator::after {
+    background-color: #43C6AC;
+  }
+
+  body .sledge__product-grid[data-grid-type="large"] {
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+  }
+
+  body .sledge-instant-search__result-data-summary-select-field-item,
+  body .sledge__alert-dialog-content .sledge__alert-dialog-description {
+    color: #767676;
+  }
+
+  body .sledge__dialog-content .IconButton:hover {
+    background: #111111;
+  }
+
+  body .sledge__SliderRange,
+  body .sledge__SliderThumb {
+    background-color: #43C6AC;
+  }
+
+  body .sledge__SliderRoot span:nth-child(2),
+  body .sledge__SliderRoot span:nth-child(3) {
+    width: 23px;
+    height: 23px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 40px;
+    background: rgb(255, 255, 255);
+  }
+  body .sledge__SliderThumb {
+    padding: 4px;
+  }
+  body .sledge__SliderTrack {
+    background-color: #111;
+  }
+  body .sledge__tooltip-content {
+    background: #43C6AC;
+    color: black
+  }
+  body .sledge__tooltip-arrow-parent svg path {
+    fill: #43C6AC;
+  }
+  body .sledge-instant-search__result-filter-item-list-slider {
+    padding-left: 1.5px;
+  }
+  body .sledge-instant-search__result-filter-horizontal-facet,
+  body .sledge-instant-search__result-filter-item-list {
+    border-radius: 0;
+  }
+
+  body .sledge__radio-group-item {
+    width: 22.1px !important;
+    height: 20px !important;
+  }
+  body .sledge-instant-search__result-filter-horizontal-facet,
+  body .sledge-instant-search__result-filter-item-list {
+    border-radius: 0;
+  }
+  body .sledge-instant-search__result-filter-item-list label,
+  body .sledge-instant-search__result-filter-item-title-refine-list,
+  body .sledge-instant-search__result-filter-item-title-refine-clear,
+  body .sledge-instant-search__result-data-summary-select-field-item span {
+    font-family: inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont;
+  }
+  body .sledge__radio-group-item-flex button.sledge__radio-group-item[data-state="checked"] + input + label {
+    color: #fff !important;
+  }
+
+  /* Pagintation */
+  body .sledge__pagination-navigation {
+    background: transparent;
+    border-color: #767676;
+  }
+
+  .sledge-icon__arrow-left svg path,
+  .sledge-icon__arrow-right svg path {
+    fill: #767676;
+  }
+
+  body .sledge__pagination-navigation:hover,
+  .sledge__pagination-navigation:disabled {
+    opacity: 0.5;
+  }
+
+  body .sledge__pagination span {
+    color: #767676;
+    font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont;
+    font-size: 14px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 22.4px;
+    letter-spacing: -0.28px;
+  }
+
+  body .sledge-instant-search__result-data-summary-text-keyword {
+    color: #43C6AC;
+  }
+
+  body .sledge-instant-search__result-filter-item-title-refine-heading {
+    color: white;
+  }
+
+  body .sledge__select-field-icon svg path {
+    fill: #767676;
+  }
+
+  body .sledge-instant-search__result-tab,
+  body .sledge-instant-search__result-wrapper {
+    margin: 0;
+    padding-left: 0;
+    padding-right: 0;
+  }
+
+  /* Instant Search Modal */
+  body .sledge-instant-search__icon-widget-popup-detail-content {
+    max-width: 831px;
+  }
+  body .sledge-instant-search__icon-widget-button-more {
+    color: #767676;
+    font-family: inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont;
+    font-size: 16px;
+    font-weight: 600;
+    line-height: 17.6px;
+    letter-spacing: -0.32px;
+  }
+  body .sledge-instant-search__icon-widget-popup-detail-content[data-layout-type=overlay_full_width] {
+    max-width: 1170px;
+  }
+
+  body.sledge__open-popup-state,
+  body .sledge-instant-search__icon-widget-button-more,
+  body .sledge-instant-search__icon-widget-search-form-field .sledge__clear-field {
+    background: #070707 !important;
+  }
+
+  body .sledge-instant-search__icon-widget-button-more {
+    color: #767676;
+  }
+
+  body .sledge__search-input-field-wrapper.sledge-instant-search__icon-widget-search-form-field,
+  body .sledge-instant-search__icon-widget-search-form-result {
+    background: #121212;
+  }
+
+  body .sledge-instant-search__icon-widget-search-form-result-title,
+  body ul.sledge-instant-search__icon-widget-search-form-result-list li a.sledge-instant-search__icon-widget-search-form-result-list-link {
+    color: #6C6C6C;
+  }
+
+  body .sledge-instant-search__icon-widget-search-form-result-title,
+  body .sledge-instant-search__icon-widget-search-form-result-title-product {
+    border-bottom: 1px solid #6C6C6C;
+  }
+
+  body .sledge-instant-search__icon-widget-search-form-result-flex .sledge-instant-search__icon-widget-search-form-result-flex-item-other .sledge-instant-search__icon-widget-search-form-result-list li:hover:not(.sledge-instant-search__icon-widget-search-form-result-flex .sledge-instant-search__icon-widget-search-form-result-flex-item-other .sledge-instant-search__icon-widget-search-form-result-list li.sledge-instant-search__icon-widget-search-form-result-item-disabled) {
+    background: transparent;
+  }
+
+  body .sledge-instant-search__icon-widget-search-form-result-flex .sledge-instant-search__icon-widget-search-form-result-flex-item-other .sledge-instant-search__icon-widget-search-form-result-list li:hover:not(.sledge-instant-search__icon-widget-search-form-result-flex .sledge-instant-search__icon-widget-search-form-result-flex-item-other .sledge-instant-search__icon-widget-search-form-result-list li.sledge-instant-search__icon-widget-search-form-result-item-disabled) a {
+    color: #43C6AC;
+  }
+
+  body .sledge-instant-search__icon-widget-search-form-result-flex-item-other > div:nth-child(1) > .sledge-instant-search__icon-widget-search-form-result-title {
+    color: #fff !important;
+  }
+
+  body .sledge-instant-search__result-empty-title,
+  body .sledge-instant-search__result-empty-description {
+    color: #6C6C6C;
+  }
+
+  /* Search Result */
+  body .sledge-instant-search__result-tab-list li:hover,
+  body .sledge-instant-search__result-tab-list li.sledge-instant-search__result-tab-list-item-active {
+    color: #929292;
+  }
+
+  body .sledge-instant-search__result-filter-item .sledge-instant-search__result-filter-title {
+    font-family: cabinet-grotesk !important;
+    font-weight: 700 !important;
+    font-size: 18px !important;
+    line-height: 19.8px !important;
+    letter-spacing: -0.4px !important;
+  }
+
+  body .sledge-instant-search__result-data-summary-text {
+    color: #fff;
+  }
+
+  body .sledge-instant-search__result-tab-total {
+    background-color: #111111;
+    color: #929292;
+  }
+
+  body .sledge-instant-search__result-tab-list-item-active {
+    color: #FFF;
+  }
+
+  body .sledge-instant-search__result-tab-list-item-active .sledge-instant-search__result-tab-total {
+    background-color: #00211A;
+    color: #43C6AC;
+  }
+
+  body .sledge-instant-search__result-tab {
+    border-color: #181818;
+  }
+
+  body .sledge-instant-search__result-tab-list li::before {
+    border-color: #43C6AC;
+  }
+
+  body .sledge-instant-search__result-data-summary-select-field-item {
+    color: #767676;
+  }
+
+  body .sledge-instant-search__icon-widget-search-form-result-list a {
+    font-family: inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont;
+  }
+
+  body .sledge-instant-search__icon-widget-search-form-result-flex-item-other > div.sledge-instant-search__icon-widget-search-form-result-title:nth-child(1) {
+    color: white;
+  }
+
+  body .sledge-instant-search__icon-widget-search-form-result-flex-item-other > div:nth-child(1) + ul svg path {
+    fill: #6C6C6C;
+  }
+
+  /* Search Result Collection Tab */
+  body .sledge__collection-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  @media(max-width:1024px) {
+    body .sledge__collection-grid {
+      grid-template-columns: repeat(1, minmax(0, 1fr));
+    }
+  }
+
+  body .sledge__collection-grid-card {
+    background: #111;
+    height: 320px;
+    position: relative;
+  }
+
+  body .sledge__collection-grid-card-image {
+    max-width: 295px;
+    position: absolute;
+    right: 0;
+  }
+
+  /* body .sledge__collection-grid-card-image {
+    content: url('https://sledge-demo-store.myshopify.com/cdn/shop/collections/SummerCollection.png?v=1693964721&width=732')
+  } */
+
+  body .sledge__collection-grid-card-content {
+    padding-left: 24px;
+  }
+
+  body .sledge__collection-grid-card-content .sledge__collection-grid-card-content-title {
+    font-size: 24px;
+    color: #fff;
+  }
+
+  body .sledge__collection-grid-card-content .sledge__collection-grid-card-content-description {
+    color: #9C9C9C;
+  }
+
+  body .sledge__collection-grid-card-text {
+    display: flex;
+    flex-direction: column;
+    justify-content: end;
+  }
+
+  body .sledge__collection-grid.sledge__skeleton-collection-grid *,
+  body .sledge__page-grid.sledge__skeleton-page-grid * {
+    background: #111111;
+  }
+
+  body .sledge-instant-search__result-tab-list li {
+    font-family: inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont;
+  }
+
+  /* Search Result Page Tab */
+  body .sledge__page-grid a {
+    background: transparent;
+  }
+
+  body .sledge__page-grid a .sledge__page-grid-card {
+    background: #111111;
+    height: 320px;
+    position: relative;
+  }
+
+  body .sledge__page-grid .sledge__page-grid-card-content {
+    display: flex;
+    flex-direction: column;
+    justify-content: end;
+    padding-left: 24px;
+  }
+
+  body .sledge__page-grid .sledge__page-grid-card-content .sledge__page-grid-card-content-title {
+    font-size: 24px;
+    color: #fff;
+  }
+  body .sledge__page-grid .sledge__page-grid-card-content .sledge__page-grid-card-content-description {
+    font-size: 14px;
+    color: #9C9C9C;
+  }
+
+  /* PDP Review */
+  body .sledge-product-review__widget-review-wrapper[data-layout-type="grid"] .sledge-product-review__widget-review-card {
+    background: #111111;
+    border: 0;
+  }
+
+  body .sledge-product-review__widget-review-wrapper[data-layout-type="list"] .sledge-product-review__widget-review-card {
+    background: transparent;
+  }
+
+  body .sledge-product-review__widget-summary-average {
+    color: #fff;
+  }
+
+  body .sledge-product-review__widget-product-empty-title,
+  body .sledge-product-review__widget-product-empty-description,
+  body .sledge-product-review__widget-summary-total {
+    color: #767676;
+  }
+
+  body .sledge-product-review__widget-review-wrapper[data-layout-type="grid"] .sledge-product-review__widget-review-card-reply {
+    margin: 0 32px;
+  }
+
+  body .sledge-product-review__widget-review-wrapper[data-layout-type="list"] .sledge-product-review__widget-review-card,
+  body .sledge-product-review__widget-review-wrapper[data-layout-type="grid"] .sledge-product-review__widget-review-card-reply {
+    border-color: #212121;
+    padding-left: 16px;
+    padding-right: 0;
+  }
+
+  body .sledge-product-review__widget-review-card-customer,
+  body .sledge-product-review__widget-review-card-reply-name {
+    color: #fff;
+    display: flex;
+    justify-content: start;
+    gap: 10.5px;
+  }
+
+  body .sledge-product-review__widget-review-card-message,
+  body .sledge-product-review__widget-review-card-reply-message {
+    color: #767676;
+  }
+
+  body .sledge-product-review__widget-review-card .sledge-product-review__widget-review-card-reply-status {
+    background: #43C6AC;
+    color: #000;
+    font-family: inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont;
+    font-size: 10px;
+    font-weight: 500;
+    line-height: 16px;
+    letter-spacing: -0.2px;
+  }
+  body .sledge-product-review__widget-review-card .sledge-product-review__widget-review-card-verified-text {
+    font-family: inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont;
+    line-height: 16px;
+    letter-spacing: -0.2px;
+  }
+
+  body .sledge-product-review__widget-review-card-reply-title {
+    margin-bottom: 18px;
+  }
+  body .sledge-product-review__widget-review-card .sledge-product-review__widget-review-card-date {
+    color: #8E8E8E;
+    font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont;
+    font-size: 12px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 19.2px;
+    letter-spacing: -0.24px;
+  }
+
+  body .sledge-product-review__widget-summary-average,
+  body .sledge-product-review__widget-summary-total,
+  body .sledge-product-review__widget-review-card-message,
+  body .sledge-product-review__widget-review-card-reply-message {
+    font-family: inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont;
+  }
+
+  body .sledge-product-review__widget-review-card-reply-name {
+    color: #FFF;
+    font-family: Cabinet Grotesk Variable;
+    font-size: 14px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: 22.4px;
+    letter-spacing: -0.28px;
+  }
+
+  body .sledge-product-review__widget-review-card-image img,
+  body .sledge-product-review__widget-review-card-image video,
+  body .sledge-product-review__widget-review-card-media-more {
+    max-width: 48px;
+    border: 0;
+  }
+  body button.sledge__button {
+    font-family: inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont !important;
+  }
+
+  body .sledge-product-review__widget-product-empty-title {
+    color: #FFF;
+    font-family: Cabinet Grotesk Variable;
+    font-size: 32px;
+    font-weight: 700;
+    line-height: 35.2px;
+  }
+
+  body .sledge-product-review__widget-product-empty-description {
+    color: #9C9C9C;
+    font-family: inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont;
+    font-size: 14px;
+    font-weight: 400;
+    line-height: 22.4px;
+    letter-spacing: -0.28px;
+  }
+  body .sledge-product-review__rating-summary-total {
+    font-family: inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont;
+  }
+
+  /* PDP Review Modal */
+  body .sledge-product-review__widget-popup-content {
+    background: #111;
+  }
+
+  body .sledge-product-review__widget-popup-content-title-description,
+  body .sledge-product-review__widget-popup-content-message {
+    color: #767676;
+  }
+
+  body .sledge-product-review__widget-popup-content-title {
+    color: #fff;
+  }
+
+  body .sledge-product-review__widget-popup-reply-wrapper {
+    border-color: #212121;
+  }
+
+  body .sledge-product-review__widget-form-add-content {
+    background: #121212 !important;
+  }
+
+  body .sledge-product-review__widget-form-select-rate-list-item {
+    background-color: #070707 !important;
+    border-color: transparent !important;
+  }
+
+  body .sledge-product-review__widget-form-select-rate-list-item.selected {
+    background-color: #F8FFAE !important;
+  }
+
+  body .sledge-product-review__widget-form-select-rate-list-item.selected .sledge-product-review__widget-form-select-rate-text {
+    color: #000000 !important;
+  }
+
+  body .sledge-product-review__widget-form-title {
+    color: #fff;
+    font-size: 22px;
+  }
+
+  body .sledge-product-review__widget-form-select-rate-text {
+    color: #767676;
+  }
+
+  body .sledge__text-area-field-control,
+  body .sledge__text-area-field,
+  body .sledge-product-review__widget-form-upload-media-file {
+    background: transparent;
+  }
+
+  body .sledge-product-review__widget-form-add-content {
+    max-width: 570px;
+  }
+
+  body .sledge-product-review__widget-form-add-step-navigator button {
+    width: 100%;
+    background: #43C6AC !important;
+    border: 0;
+    border-radius: 8px;
+    color: #000000 !important;
+    font-weight: 700;
+    font-size: 14px;
+  }
+
+  body .sledge-product-review__widget-form-add-step-navigator button .sledge-icon__arrow-right {
+    display: none;
+  }
+  body .sledge__text-area-field-control .sledge__text-area-field {
+    border: 0;
+    background: #070707;
+    color: #767676;
+  }
+  body.sledge-product-review__widget-form-upload-media,
+  body .sledge-product-review__widget-form-upload-media-delete-loading {
+    border-color: #363636;
+  }
+  body .sledge-product-review__widget-form-upload-media-filled-item {
+    border: 0;
+  }
+  body .sledge-product-review__widget-form-add-step-navigator {
+    display: flex;
+    gap: 30px;
+  }
+  body .sledge-product-review__widget-form-add-step-navigator > span {
+    color: #767676;
+  }
+  body .sledge-product-review__widget-form .sledge__input-field-wrapper input {
+    background: #070707;
+    border: 0;
+    color: #9C9C9C;
+  }
+  body .sledge-product-review__widget-form-review-description {
+    color: #767676;
+  }
+  body .sledge__popover-content.sledge-product-review__widget-summary-content {
+    background: #121212;
+  }
+  body .sledge-product-review__widget-summary-dist-progress .sledge__progress {
+    background: #070707;
+    border: 0 !important;
+  }
+  body .sledge__alert-dialog-footer .sledge__alert-dialog-button.success {
+    background: #43C6AC;
+    color: #000;
+    font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont;
+    font-size: 14px;
+    font-weight: 600;
+    line-height: 15.4px;
+    letter-spacing: -0.28px;
+  }
+  body .sledge__alert-dialog-footer .sledge__alert-dialog-button.sledge__alert-dialog-button-cancel {
+    border-radius: 323.9px;
+    background: #242424;
+    color: #767676;
+    font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont;
+    font-size: 14px;
+    font-style: normal;
+    font-weight: 600;
+    line-height: 110%; /* 15.4px */
+    letter-spacing: -0.28px;
+  }
+  body form[data-active-step="Step_WriteReview"] .sledge-product-review__widget-form-add-step-navigator > span:nth-child(1),
+  body form[data-active-step="Step_PersonalData"] .sledge-product-review__widget-form-add-step-navigator > span:nth-child(1) {
+    position: absolute;
+    top: -520px;
+    color: transparent;
+    content: url("data:image/svg+xml, %3Csvg width='32' height='32' viewBox='0 0 32 32' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M11.9998 29.3327H19.9998C26.6665 29.3327 29.3332 26.666 29.3332 19.9993V11.9993C29.3332 5.33268 26.6665 2.66602 19.9998 2.66602H11.9998C5.33317 2.66602 2.6665 5.33268 2.6665 11.9993V19.9993C2.6665 26.666 5.33317 29.3327 11.9998 29.3327Z' stroke='black' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'/%3E%3Cpath d='M17.6802 20.7063L12.9868 15.9996L17.6802 11.293' stroke='%23767676' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E ");
+    background: #000000;
+    width: 32px;
+    height: 32px;
+    border-radius: 12px;
+    backdrop-filter: blur(8px);
+  }
+
+  @media(max-width:767px) {
+    body form[data-active-step="Step_WriteReview"] .sledge-product-review__widget-form-add-step-navigator > span:nth-child(1),
+    body form[data-active-step="Step_PersonalData"] .sledge-product-review__widget-form-add-step-navigator > span:nth-child(1) {
+      top: -559px;
+    }
+  }
+  body .sledge-product-review__widget-popup-close {
+    background: #111;
+  }
+
+  body .sledge-product-review__widget-popup-content-verified-text {
+    color: #000;
+    font-family: inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont;
+    font-size: 10px;
+    font-weight: 500;
+    line-height: 16px;
+    letter-spacing: -0.2px;
+  }
+
+  body .sledge-product-review__widget-popup-content-title-description {
+    font-family: inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont;
+  }
+
+  body .sledge-product-review__widget-popup-content-date {
+    color: #767676;
+    font-family: inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont;
+    font-size: 12px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 19.2px;
+    letter-spacing: -0.24px;
+  }
+
+  body .sledge-product-review__widget-popup-content-message {
+    color: #767676;
+    font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont;
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 25.6px;
+    letter-spacing: -0.32px;
+  }
+
+  body .sledge-product-review__widget-review-card-reply-status {
+    border-radius: 360px;
+    background: #43C6AC;
+    color: #000;
+    font-family: inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont;
+    font-size: 10px;
+    font-weight: 500;
+    line-height: 16px;
+    letter-spacing: -0.2px;
+  }
+  body .sledge-product-review__widget-popup-detail-content {
+    background: transparent;
+  }
+  body .sledge-product-review__widget-popup-media-nav-item {
+    border-radius: 12px;
+    background: rgba(255, 255, 255, 0.30);
+    backdrop-filter: blur(8px);
+  }
+
+  body .sledge-product-review__widget-popup-media-nav .sledge-icon__arrow-right svg path,
+  body .sledge-product-review__widget-popup-media-nav .sledge-icon__arrow-left svg path {
+    fill: white;
+  }
+  body .sledge-product-review__widget-popup-content-heading {
+    display: flex;
+    justify-content: start;
+  }
+  body .sledge__alert-dialog-content .sledge__alert-dialog-description {
+    color: #767676;
+  }
+  body.template-product .sledge__alert-dialog-footer .sledge__alert-dialog-button.success:before {
+    content: url("data:image/svg+xml, %3Csvg width='16' height='16' viewBox='0 0 16 16' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M10.6663 1.33325H5.33301C2.66634 1.33325 1.33301 2.66659 1.33301 5.33325V13.9999C1.33301 14.3666 1.63301 14.6666 1.99967 14.6666H10.6663C13.333 14.6666 14.6663 13.3333 14.6663 10.6666V5.33325C14.6663 2.66659 13.333 1.33325 10.6663 1.33325ZM10.333 8.49992H8.49967V10.3333C8.49967 10.6066 8.27301 10.8333 7.99967 10.8333C7.72634 10.8333 7.49967 10.6066 7.49967 10.3333V8.49992H5.66634C5.39301 8.49992 5.16634 8.27325 5.16634 7.99992C5.16634 7.72658 5.39301 7.49992 5.66634 7.49992H7.49967V5.66658C7.49967 5.39325 7.72634 5.16658 7.99967 5.16658C8.27301 5.16658 8.49967 5.39325 8.49967 5.66658V7.49992H10.333C10.6063 7.49992 10.833 7.72658 10.833 7.99992C10.833 8.27325 10.6063 8.49992 10.333 8.49992Z' fill='black'/%3E%3C/svg%3E ");
+    width: 16px;
+    height: 16px;
+    flex-shrink: 0;
+    margin-right: 8px;
+  }
+  /* Wishlist Page */
+  body .sledge-wishlist__widget-product-empty-icon {
+    background: #111;
+  }
+  body .sledge-wishlist__widget-product-empty-icon .sledge-icon__heart svg {
+    fill: #767676 !important;
+  }
+  body .sledge-wishlist__widget-product-empty-title {
+    color: #FFF;
+    font-family: Cabinet Grotesk Variable;
+    font-size: 32px;
+    font-weight: 700;
+    line-height: 35.2px;
+  }
+
+  body .sledge-wishlist__widget-product-empty-description {
+    color: #9C9C9C;
+    font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont;
+    font-size: 14px;
+    line-height: 22.4px;
+    letter-spacing: -0.28px;
+    max-width: 654px;
+  }
+
+  body .sledge-wishlist__widget-wrapper .sledge-wishlist__widget-button-wrapper a.sledge__button {
+    background: #43C6AC;
+    border: 0;
+    color: #000;
+    font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont;
+    font-size: 14px;
+    font-weight: 600;
+    line-height: 15.4px;
+    letter-spacing: -0.56px;
+    padding: 12px 16px;
+    border-radius: 323.9px;
+  }
+
+  body .sledge-icon__arrow-left svg path,
+  .sledge-icon__arrow-right svg path {
+    fill: #000000;
+  }
+  body .sledge__search-input-field-wrapper .sledge__search-input-field,
+  body .sledge-wishlist__widget-alert-text {
+    font-family: inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont !important;
+  }
+
+  /* Wishlist Popup */
+  body .sledge__toast-root {
+    background: #111111;
+  }
+  body .sledge__toast-title {
+    color: #fff;
+  }
+  body .sledge__toast-type[data-notification-type="success"] {
+    background: #43C6AC;
+  }
+  body .sledge__toast-type[data-notification-type=success] .sledge-icon__check svg path {
+    fill: black;
+  }
+
+  /* Review Popup */
+  body .sledge__toast-root .sledge-icon__star svg > path {
+    stroke: white;
+  }
+
+  /* Review Widget */
+  body .sledge-product-review__widget-review-wrapper[data-layout-type="grid"] .sledge-product-review__widget-review-card {
+    background: #111;
+  }
+  
+  /* Skeleton */
+  body .sledge__product-grid.sledge__skeleton-product-grid .sledge__product-grid-card,
+  body .sledge__blog-grid.sledge__skeleton-blog-grid .sledge__blog-grid-card,
+  body .sledge__article-grid.sledge__skeleton-article-grid .sledge__article-grid-card {
+    border: 0;
+  }
+
+  /* any */
+  body .sledge__button.sledge__alert-dialog-button[data-button-color-type="danger"] {
+    color: rgb(215, 44, 13);
+    border-color: transparent;
+    background-color: rgba(215, 44, 13, 0.12);
+    font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont;
+    text-transform: none;
+  }
+  body .sledge__alert-dialog-footer .sledge__button.sledge__alert-dialog-button-cancel,
+  body .sledge__dialog-content .sledge__dialog-button.sledge__dialog-button-cancel {
+    background: #242424;
+    color: #767676;
+    font-size: 14px;
+    font-style: normal;
+    font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont;
+    font-weight: 600;
+    line-height: 15.4px;
+    letter-spacing: -0.28px;
+  }
+  body.template-product div[data-component="product-review-rating"] [data-component="container-widget"] {
+    display: flex;
+  }
+  body .sledge__alert-dialog-content-close,
+  body .sledge-product-review__widget-form-add-step-back,
+  body .sledge-product-review__widget-form-add-step-close {
+    background: #000;
+  }
+  body .sledge-product-review__widget-form-review .sledge-icon__arrow-left svg path {
+    fill: #767676;
+  }
+  body .sledge-product-review__widget-product-empty-icon {
+    background: #111;
+  }
+  body .sledge-product-review__widget-summary-trigger .summary-trigger-icon svg path {
+    fill: #767676;
+  }
+  body .sledge__pagination svg path {
+    fill: #767676;
+  }
+  body .sledge__toast-icon-wrapper .sledge-icon__upload svg path {
+    fill: white;
+  }
+  
+  /* wishlist load more button */
+
+  body .sledge-wishlist__widget-button-load-more button:hover {
+    opacity: .75 !important;
+  }
+
+  @media(min-width: 1024px) {
+    body .sledge-wishlist__widget-button-load-more button {
+      font-size: 16px;
+    }
+  }
+
+  body .sledge-wishlist__widget-button-load-more button {
+    padding: 16px 32px;
+    transition-duration: 0.2s;
+    transition-property: color, background-color, border-color, text-decoration-color, fill, stroke, opacity, box-shadow, transform, filter, -webkit-backdrop-filter;
+    transition-property: color, background-color, border-color, text-decoration-color, fill, stroke, opacity, box-shadow, transform, filter, backdrop-filter;
+    transition-property: color, background-color, border-color, text-decoration-color, fill, stroke, opacity, box-shadow, transform, filter, backdrop-filter, -webkit-backdrop-filter;
+    transition-timing-function: cubic-bezier(0.4,0,0.2,1);
+    transition-duration: 0.15s;
+    --tw-border-opacity: 1;
+    border-color: rgb(67 198 172 / var(--tw-border-opacity)) !important;
+    border-style: solid;
+    border-width: 1px;
+    border-radius: 360px;
+    justify-content: center;
+    align-items: center;
+    width: fit-content;
+    background: transparent !important;
+    --tw-text-opacity: 1;
+    color: rgb(67 198 172 / var(--tw-text-opacity)) !important;
+    font-weight: 700;
+    font-family: inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont;
+    font-size: 14px;
+    line-height: 17.6px;
+    letter-spacing: -0.32px;
+  }
+
+  .sledge-demo__announcement-bar-wrapper canvas {
+    position: absolute;
+    inset: 0px;
+  }
+
+  body .sledge-wishlist__widget-button-detail-wrapper {
+    width: 100%;
+  }
+  
+  body .sledge-wishlist__widget-button-detail-wrapper button {
+    background: transparent !important;
+    width: 100% !important;
+    border-radius: 323.9px !important;
+    padding: 12px 24px !important;
+    border: 0.9px solid #767676 !important; 
+    font-size: 14px;
+    line-height: 15.4px;
+    font-weight: 600 !important;
+    color: #767676 !important;
+  }
+  
+  body .sledge-wishlist__widget-button-detail-wrapper button:hover {
+    border: 0.9px solid #000 !important;
+    background: #43C6AC !important;
+    color:black !important;
+  }
+
+  body .sledge-wishlist__widget-button-detail-wrapper button svg,
+  body .sledge-wishlist__widget-button-detail-wrapper .sledge-wishlist__widget-button-detail-icon {
+    width: 20px;
+    height: 23px;
+  }
+  
+  body .sledge-wishlist__widget-button-detail-wrapper button:hover svg path {
+    fill:black;
+    d: path("M5.89839 0.0841133C6.42339 0.10008 6.93172 0.191746 7.42422 0.359246H7.47339C7.50672 0.37508 7.53172 0.39258 7.54839 0.408413C7.73255 0.46758 7.90672 0.534246 8.07339 0.625913L8.39005 0.76758C8.51505 0.834246 8.66505 0.958413 8.74839 1.00925C8.83172 1.05841 8.92339 1.10925 8.99839 1.16675C9.92422 0.459246 11.0484 0.075913 12.2067 0.0841133C12.7326 0.0841133 13.2576 0.158413 13.7567 0.325913C16.8326 1.32591 17.9409 4.70091 17.0151 7.65091C16.4901 9.15841 15.6317 10.5342 14.5076 11.6584C12.8984 13.2167 11.1326 14.6001 9.23172 15.7917L9.02339 15.9176L8.80672 15.7834C6.89922 14.6001 5.12339 13.2167 3.49922 11.6501C2.38255 10.5259 1.52339 9.15841 0.990053 7.65091C0.0483862 4.70091 1.15672 1.32591 4.26589 0.308413C4.50755 0.22508 4.75672 0.166746 5.00672 0.134246H5.10672C5.34089 0.10008 5.57339 0.0841133 5.80672 0.0841133H5.89839ZM13.3234 2.71758C12.9817 2.60008 12.6067 2.78425 12.4817 3.13425C12.3651 3.48425 12.5484 3.86758 12.8984 3.99175C13.4326 4.19175 13.7901 4.71758 13.7901 5.30008V5.32591C13.7742 5.51675 13.8317 5.70091 13.9484 5.84258C14.0651 5.98425 14.2401 6.06675 14.4234 6.08425C14.7651 6.07508 15.0567 5.80091 15.0817 5.45008V5.35091C15.1067 4.18341 14.3992 3.12591 13.3234 2.71758Z");
+  }

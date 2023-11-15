@@ -1,0 +1,16 @@
+{%- liquid
+  if cart == empty
+    render 'icon-cart-empty'
+  else
+    render 'icon-cart'
+  endif
+-%}
+<span class="visually-hidden hidden">{{ 'templates.cart.cart' | t }}</span>
+{%- if cart != empty -%}
+  <div class="cart-count-bubble relative">
+    {%- if cart.item_count < 100 -%}
+      <span aria-hidden="true" class="hidden">{{ cart.item_count }}</span>
+    {%- endif -%}
+    <span class="absolute bottom-[-4.33px] right-[-3.25px] bg-red rounded-full font-inter font-semibold text-[8px] leading-[110%] tracking-[-.02em] text-white w-[15px] h-[15px] flex justify-center items-center">{{ cart.item_count }}</span>
+  </div>
+{%- endif -%}

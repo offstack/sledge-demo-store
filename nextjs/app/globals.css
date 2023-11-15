@@ -1,0 +1,91 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  @font-face {
+      font-family: cabinet-grotesk;
+      font-weight: 500 900;
+      font-display: swap;
+      font-style: normal;
+      src: url('../fonts/CabinetGrotesk/CabinetGrotesk-Variable.woff2');
+  }
+
+  @font-face {
+      font-family: Cabinet Grotesk Variable;
+      font-weight: 500 900;
+      font-display: swap;
+      font-style: normal;
+      src: url('../fonts/CabinetGrotesk/CabinetGrotesk-Variable.woff2');
+  }
+
+  @font-face {
+      font-family: inter;
+      font-weight: 400;
+      font-display: swap;
+      font-style: normal;
+      src: url("../fonts/Inter/Inter-Regular.woff2");
+    }
+  
+    @font-face {
+      font-family: inter;
+      font-weight: 500;
+      font-display: swap;
+      font-style: normal;
+      src: url("../fonts/Inter/Inter-Medium.woff2");
+    }
+  
+    @font-face {
+      font-family: inter;
+      font-weight: 700;
+      font-display: swap;
+      font-style: normal;
+      src: url("../fonts/Inter/Inter-Bold.woff2");
+    }
+  
+    @font-face {
+      font-family: inter;
+      font-weight: 800;
+      font-display: swap;
+      font-style: normal;
+      src: url("../fonts/Inter/Inter-ExtraBold.woff2");
+    }
+}
+
+/* button hover */
+.button-hover-state {
+  @apply transition-all duration-200 hover:opacity-75;
+}
+
+/* Sledge Components Overriding */
+body .sledge__checkbox-root {
+  @apply border-dark6 bg-transparent;
+}
+
+body .sledge__checkbox-root[data-state="checked"] { 
+  @apply bg-green;
+}
+
+body .sledge__checkbox-indicator svg path {
+  @apply fill-black;
+}
+
+:focus-visible {
+  @apply outline-none;
+}
+
+@media (prefers-color-scheme: dark) {
+  html {
+    color-scheme: dark;
+  }
+}
+
+@supports (font: -apple-system-body) and (-webkit-appearance: none) {
+  img[loading='lazy'] {
+    clip-path: inset(0.6px);
+  }
+}
+
+::-webkit-details-marker {
+  display: none;
+}

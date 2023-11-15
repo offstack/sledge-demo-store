@@ -1,0 +1,395 @@
+{{ 'modal.css' | asset_url | stylesheet_tag }}
+<script src="{{ 'customer.js' | asset_url }}" defer></script>
+
+{% if customer %}
+  {% assign user_id = customer.id %}
+  {% assign user_fullname = customer.name %}
+  {% if customer.name == null or customer.name == "" %}
+    {% assign user_fullname = customer.email | split: "@" | first %}{% endif %}
+{% endif %}
+
+<div class="max-w-[1170px] mx-auto px-5 lg:px-20 xl:px-0 mt-[40.5px]">
+  <h1 class="text-xl lg:text-[48px] font-bold leading-[52.8px]">Welcome, {{ customer.first_name }}
+  </h1>
+  <div class="lg:w-fit  flex items-center text-white justify-center gap-x-6 lg:justify-start hover:opacity-70 transition duration-200 mt-0 !w-fit ">
+    <a href="{{ routes.account_logout_url }}" class="font-semibold text-black bg-green font-inter text-[12px] md:text-[14px] leading-[15.4px] tracking-[-0.56px] py-[10px] md:py-[12px] px-[14px] md:px-[16px] rounded-[323.9px] disabled:opacity-70 my-[20px]">Sign out</a>
+  </div>
+</div>
+
+{% comment %} Orders Details {% endcomment %}
+{% paginate customer.orders by 20 %}
+  {% if customer.orders.size > 1 %}
+    <div class="mt-6">
+      <div class="max-w-[1170px] mx-auto px-5 lg:px-20 xl:px-0 grid w-full gap-4 md:gap-8">
+        <h2 class="text-xl lg:text-[48px] font-bold leading-[52.8px]">Order History</h2>
+        <ul class="grid grid-flow-row grid-cols-1 gap-2 gap-y-6 md:gap-4 lg:gap-6 false sm:grid-cols-3">
+          {%- for order in customer.orders -%}
+            {% assign first_product = order.line_items | first %}
+            {% comment %} order items {% endcomment %}
+            <li class="grid text-center border border-dark2 rounded">
+              <a class="grid items-center gap-4 p-4 md:gap-6 md:p-6 md:grid-cols-2" href="{{ order.customer_url }}">
+                <div class="card-image aspect-square bg-primary/5">
+                  <img
+                    alt="Order image"
+                    decoding="async"
+                    height="{{first_product.image.height}}"
+                    loading="lazy"
+                    src="{{ first_product.image.src | img_url: 'medium' }}"
+                    srcset=""
+                    width="{{first_product.image.width}}"
+                    class="w-full fadeIn cover"
+                    style="aspect-ratio: {{first_product.image.width}} / {{first_product.image.height}};">
+                </div>
+                <div class="flex-col justify-center text-left">
+                  <h5>{{ first_product.title | upcase }}
+                    {% if order.line_items.size > 1 %}
+                      + {{ order.line_items.size | minus: 1 }} more
+                    {% endif %}
+                  </h5>
+                  <dl class="grid grid-gap-1">
+                    <dt class="sr-only">Order ID</dt>
+                    <dd>
+                      <p>Order No. {{ order.order_number }}</p>
+                    </dd>
+                    <dt class="sr-only">Order Date</dt>
+                    <dd>
+                      <p>{{ order.created_at | time_tag: format: 'date' }}</p>
+                    </dd>
+                    <dt class="sr-only">Fulfillment Status</dt>
+                    <dd class="mt-2">
+                      <span class="w-fit block px-3 py-1 text-xs font-medium rounded-full {% if order.fulfillment_status_label == 'Fulfilled' %} bg-green/20 text-green-800  {% else %} bg-gray-500/50 text-white {% endif %}">
+                        <p>{{ order.fulfillment_status_label }}</p>
+                      </span>
+                    </dd>
+                  </dl>
+                </div>
+              </a>
+              <div class="self-end border-t border-dark2">
+                <a class="block w-full p-2 text-center" href="{{ order.customer_url }}">
+                  <p class="ml-3">View Details</p>
+                </a>
+              </div>
+            </li>
+            {% comment %} end order items {% endcomment %}
+          {%- endfor -%}
+        </ul>
+      </div>
+    </div>
+  {% else %}
+    <div class="max-w-[1170px] mx-auto px-5 lg:px-20 xl:px-0">
+      <p class="mb-1 text-dark4">You haven't placed any orders yet.</p>
+      <div class="lg:w-fit  flex items-center text-white justify-center gap-x-6 lg:justify-start hover:opacity-70 transition duration-200 mt-5 !w-fit ">
+        <a class="font-semibold text-black bg-green font-inter text-[12px] md:text-[14px] leading-[15.4px] tracking-[-0.56px] py-[10px] md:py-[12px] px-[14px] md:px-[16px] rounded-[323.9px] disabled:opacity-70" href="/collections/all">Start Shopping
+          <svg
+            class="inline ml-[10px]"
+            width="17"
+            height="17"
+            viewBox="0 0 17 17"
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg">
+            <path
+              d="M10.2373 4.00146L14.3333 8.09745L10.2373 12.1934"
+              stroke="black"
+              stroke-width="1.5"
+              stroke-miterlimit="10"
+              stroke-linecap="round"
+              stroke-linejoin="round" />
+            <path
+              d="M2.86133 8.09766H14.2181"
+              stroke="black"
+              stroke-width="1.5"
+              stroke-miterlimit="10"
+              stroke-linecap="round"
+              stroke-linejoin="round" />
+          </svg>
+        </a>
+      </div>
+    </div>
+  {% endif %}
+{% endpaginate %}
+
+{% comment %} Account Details {% endcomment %}
+<div class="max-w-[1170px] mx-auto px-5 lg:px-20 xl:px-0 grid w-full gap-4 py-6 md:gap-8">
+  <h3 class="text-xl lg:text-[48px] font-bold leading-[52.8px]">Account Details</h3>
+  <div class="lg:p-8 p-6 border border-dark3 rounded">
+    <div class="flex">
+      <h3 class="font-bold text-base flex-1">Profile &amp; Security</h3>
+      {% comment %} <a class="underline text-sm font-normal" href="/account/edit">Edit</a> {% endcomment %}
+    </div>
+    <div class="mt-4 text-sm text-primary/50">Name</div>
+    <p class="mt-1 text-dark4">{{ user_fullname }}
+    </p>
+    <div class="mt-4 text-sm text-primary/50">Contact</div>
+    <p class="mt-1 text-dark4">
+      {% if customer.phone == blank %}
+        Add mobile
+      {% else %}
+        {{ customer.phone }}
+      {% endif %}
+    </p>
+    <div class="mt-4 text-sm text-primary/50">Email address</div>
+    <p class="mt-1 text-dark4">{{ customer.email }}</p>
+    <div class="mt-4 text-sm text-primary/50">Password</div>
+    <p class="mt-1 text-dark4">**************</p>
+  </div>
+</div>
+
+{% comment %} Address Book {% endcomment %}
+{%- paginate customer.addresses by 5 -%}
+  <div class="max-w-[1170px] mx-auto px-5 lg:px-20 xl:px-0 grid w-full gap-4 py-6 md:gap-3">
+    <h3 class="text-xl lg:text-[48px] font-bold leading-[52.8px]">Address Book</h3>
+    <div>
+      <div class="lg:w-fit  flex items-center text-white justify-center gap-x-6 lg:justify-start hover:opacity-70 transition duration-200 mt-[8px] lg:mt-[12px] mb-4 !w-fit ">
+        <label class="font-semibold text-black bg-green font-inter text-[12px] md:text-[14px] leading-[15.4px] tracking-[-0.56px] py-[10px] md:py-[12px] px-[14px] md:px-[16px] rounded-[323.9px] disabled:opacity-70 cursor-pointer" for="modal-add-address">Add an Address</label>
+      </div>
+      <input
+      class="modal-state"
+        autocomplete="off"
+        id="modal-add-address"
+        type="checkbox" />
+      {% comment %} Modal Add Address {% endcomment %}
+      <div class="modal">
+        <label class="modal__bg" for="modal-add-address"></label>
+        <div class="modal__inner !bg-dark2">
+          <div class="py-[12px]">
+            <label class="modal__close" for="modal-add-address"></label>
+            <h2 class="text-[18px]">Add Address</h2>
+          </div>
+          {%- form 'customer_address', customer.new_address, aria-labelledBy: 'AddressNewHeading' -%}
+            <div class="mt-3">
+              <input
+                class="block pl-[24px] border-solid border-dark4 font-inter font-medium !text-[14px] md:!text-[18px] !text-sledge-color-text-secondary-2 focus:ring-inset focus:ring-sledge-color-primary-green-3 focus:border-sledge-color-primary-green-3 appearance-none rounded dark:bg-transparent border focus:border-primary/50 focus:ring-0 w-full py-2 px-3 text-primary/90 placeholder:text-primary/50 leading-tight focus:shadow-outline border-primary/20"
+                type="text"
+                id="AddressFirstNameNew"
+                name="address[first_name]"
+                value="{{ form.first_name }}"
+                autocomplete="given-name"
+                placeholder="First Name">
+
+            </div>
+            <div class="mt-3">
+              <input
+                class="block pl-[24px] border-solid border-dark4 font-inter font-medium !text-[14px] md:!text-[18px] !text-sledge-color-text-secondary-2 focus:ring-inset focus:ring-sledge-color-primary-green-3 focus:border-sledge-color-primary-green-3 appearance-none rounded dark:bg-transparent border focus:border-primary/50 focus:ring-0 w-full py-2 px-3 text-primary/90 placeholder:text-primary/50 leading-tight focus:shadow-outline border-primary/20"
+                type="text"
+                id="AddressLastNameNew"
+                name="address[last_name]"
+                value="{{ form.last_name }}"
+                autocomplete="family-name"
+                placeholder="Last Name">
+
+            </div>
+            <div class="mt-3">
+              <input
+                class="block pl-[24px] border-solid border-dark4 font-inter font-medium !text-[14px] md:!text-[18px] !text-sledge-color-text-secondary-2 focus:ring-inset focus:ring-sledge-color-primary-green-3 focus:border-sledge-color-primary-green-3 appearance-none rounded dark:bg-transparent border focus:border-primary/50 focus:ring-0 w-full py-2 px-3 text-primary/90 placeholder:text-primary/50 leading-tight focus:shadow-outline border-primary/20"
+                type="text"
+                id="AddressCompanyNew"
+                name="address[company]"
+                value="{{ form.company }}"
+                autocomplete="organization"
+                placeholder="Company">
+
+            </div>
+            <div class="mt-3">
+              <input
+                class="block pl-[24px] border-solid border-dark4 font-inter font-medium !text-[14px] md:!text-[18px] !text-sledge-color-text-secondary-2 focus:ring-inset focus:ring-sledge-color-primary-green-3 focus:border-sledge-color-primary-green-3 appearance-none rounded dark:bg-transparent border focus:border-primary/50 focus:ring-0 w-full py-2 px-3 text-primary/90 placeholder:text-primary/50 leading-tight focus:shadow-outline border-primary/20"
+                type="text"
+                id="AddressAddress1New"
+                name="address[address1]"
+                value="{{ form.address1 }}"
+                autocomplete="address-line1"
+                placeholder="Address 1">
+
+            </div>
+            <div class="mt-3">
+              <input
+                class="block pl-[24px] border-solid border-dark4 font-inter font-medium !text-[14px] md:!text-[18px] !text-sledge-color-text-secondary-2 focus:ring-inset focus:ring-sledge-color-primary-green-3 focus:border-sledge-color-primary-green-3 appearance-none rounded dark:bg-transparent border focus:border-primary/50 focus:ring-0 w-full py-2 px-3 text-primary/90 placeholder:text-primary/50 leading-tight focus:shadow-outline border-primary/20"
+                type="text"
+                id="AddressAddress2New"
+                name="address[address2]"
+                value="{{ form.address2 }}"
+                autocomplete="address-line2"
+                placeholder="Address 2">
+
+            </div>
+            <div class="mt-3">
+              <input
+                class="block pl-[24px] border-solid border-dark4 font-inter font-medium !text-[14px] md:!text-[18px] !text-sledge-color-text-secondary-2 focus:ring-inset focus:ring-sledge-color-primary-green-3 focus:border-sledge-color-primary-green-3 appearance-none rounded dark:bg-transparent border focus:border-primary/50 focus:ring-0 w-full py-2 px-3 text-primary/90 placeholder:text-primary/50 leading-tight focus:shadow-outline border-primary/20"
+                type="text"
+                id="AddressCityNew"
+                name="address[city]"
+                value="{{ form.city }}"
+                autocomplete="address-level2"
+                placeholder="City">
+
+            </div>
+            <div class="mt-3 mb-3">
+              <label class="mt-3 text-[18px]" for="AddressCountryNew">Country</label>
+              <div class="select mt-3">
+                <select
+                  class="block pl-[24px] border-solid border-dark4 font-inter font-medium !text-[14px] md:!text-[18px] !text-sledge-color-text-secondary-2 focus:ring-inset focus:ring-sledge-color-primary-green-3 focus:border-sledge-color-primary-green-3 appearance-none rounded dark:bg-transparent border focus:border-primary/50 focus:ring-0 w-full py-2 px-3 text-primary/90 placeholder:text-primary/50 leading-tight focus:shadow-outline border-primary/20"
+                  id="AddressCountryNew"
+                  name="address[country]"
+                  data-default="{{ form.country }}"
+                  autocomplete="country">
+                  {{ all_country_option_tags }}
+                </select>
+              </div>
+            </div>
+            <div id="AddressProvinceContainerNew" style="display: none">
+              <label class="mt-3" for="AddressProvinceNew">Province</label>
+              <div class="select mt-3">
+                <select
+                  class="block pl-[24px] border-solid border-dark4 font-inter font-medium !text-[14px] md:!text-[18px] !text-sledge-color-text-secondary-2 focus:ring-inset focus:ring-sledge-color-primary-green-3 focus:border-sledge-color-primary-green-3 appearance-none rounded dark:bg-transparent border focus:border-primary/50 focus:ring-0 w-full py-2 px-3 text-primary/90 placeholder:text-primary/50 leading-tight focus:shadow-outline border-primary/20"
+                  id="AddressProvinceNew"
+                  name="address[province]"
+                  data-default="{{ form.province }}"
+                  autocomplete="address-level1"></select>
+              </div>
+            </div>
+            <div class="mt-3">
+              <input
+                class="block pl-[24px] border-solid border-dark4 font-inter font-medium !text-[14px] md:!text-[18px] !text-sledge-color-text-secondary-2 focus:ring-inset focus:ring-sledge-color-primary-green-3 focus:border-sledge-color-primary-green-3 appearance-none rounded dark:bg-transparent border focus:border-primary/50 focus:ring-0 w-full py-2 px-3 text-primary/90 placeholder:text-primary/50 leading-tight focus:shadow-outline border-primary/20"
+                type="text"
+                id="AddressZipNew"
+                name="address[zip]"
+                value="{{ form.zip }}"
+                autocapitalize="characters"
+                autocomplete="postal-code"
+                placeholder="Zip Code">
+
+            </div>
+            <div class="mt-3">
+              <input
+                class="block pl-[24px] border-solid border-dark4 font-inter font-medium !text-[14px] md:!text-[18px] !text-sledge-color-text-secondary-2 focus:ring-inset focus:ring-sledge-color-primary-green-3 focus:border-sledge-color-primary-green-3 appearance-none rounded dark:bg-transparent border focus:border-primary/50 focus:ring-0 w-full py-2 px-3 text-primary/90 placeholder:text-primary/50 leading-tight focus:shadow-outline border-primary/20"
+                type="tel"
+                id="AddressPhoneNew"
+                name="address[phone]"
+                value="{{ form.phone }}"
+                autocomplete="tel"
+                placeholder="Phone">
+
+            </div>
+            <div class="mt-4 flex items-center gap-[7px]">
+              <input
+                class="custom-checkbox bg-transparent checked:bg-green h-[20px] w-[20px] text-green rounded-[4px] cursor-pointer focus:ring-green"
+                type="checkbox"
+                id="address_default_address_new"
+                name="address[default]"
+                autocomplete="off">
+              <label for="address_default_address_new">Set as default</label>
+            </div>
+
+            <div class="mt-3 flex gap-4">
+              <div class="lg:w-fit  flex items-center text-white justify-center gap-x-6 lg:justify-start hover:opacity-70 transition duration-200 mt-0 !w-fit ">
+                <button type="submit" class="font-semibold text-black bg-green font-inter text-[12px] md:text-[14px] leading-[15.4px] tracking-[-0.56px] py-[10px] md:py-[12px] px-[14px] md:px-[16px] rounded-[323.9px] disabled:opacity-70 my-[20px]">Add Address
+                  <svg
+                    class="inline ml-[10px]"
+                    width="17"
+                    height="17"
+                    viewBox="0 0 17 17"
+                    fill="none"
+                    xmlns="http://www.w3.org/2000/svg">
+                    <path
+                      d="M10.2373 4.00146L14.3333 8.09745L10.2373 12.1934"
+                      stroke="black"
+                      stroke-width="1.5"
+                      stroke-miterlimit="10"
+                      stroke-linecap="round"
+                      stroke-linejoin="round" />
+                    <path
+                      d="M2.86133 8.09766H14.2181"
+                      stroke="black"
+                      stroke-width="1.5"
+                      stroke-miterlimit="10"
+                      stroke-linecap="round"
+                      stroke-linejoin="round" />
+                  </svg>
+                </button>
+              </div>
+
+              <div class="w-full lg:w-fit flex items-center text-white justify-center gap-x-6 lg:justify-center hover:opacity-70 transition duration-200">
+                <label class="text-white font-sledge-font-family-2 text-[12px] md:text-[16px] font-[700] leading-[18px] tracking-[-0.02em] py-[10px] md:py-[14px] px-[20px] md:px-[24px] rounded-[360px] bg-sledge-color-grey-5 cursor-pointer" for="modal-add-address">Cancel</label>
+              </div>
+            </div>
+          {%- endform -%}
+        </div>
+      </div>
+      {% comment %}End Modal Add Address {% endcomment %}
+
+      <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 pt-[15px]">
+        {%- for address in customer.addresses -%}
+          <div class="lg:p-8 p-6 border border-dark3 rounded flex flex-col">
+            <div class="mb-3 flex flex-row">
+              <span class="py-1 text-xs font-medium rounded-full bg-primary/20 text-primary/50">Default</span>
+            </div>
+            <ul class="flex-1 flex-row">
+              <li>{{ address.first_name }} {{ address.last_name }}</li>
+              <li>{{ address.company }}</li>
+              <li>{{ address.address1 }}</li>
+              <li>{{ address.address2 }}</li>
+              <li>{{ address.city }}</li>
+              <li>{{ address.province }} {{ address.zip }}</li>
+              <li>{{ address.country }}</li>
+            </ul>
+            <div class="flex flex-row font-medium mt-6 items-baseline">
+              <a class="text-left underline text-sm" href="/account/addresses">Edit</a>
+              <button
+                type="button"
+                data-target="{{ address.url }}"
+                data-confirm-message="Are you sure you wish to delete this address?"
+                class="remove-address text-left text-primary/50 ml-6 text-sm">Remove</button>
+            </div>
+          </div>
+        {%- endfor -%}
+      </div>
+    </div>
+  </div>
+{%- endpaginate -%}
+
+<script>
+  window.onload = () => {
+    typeof CustomerAddresses !== 'undefined' && new CustomerAddresses();
+
+    function appendProvince(val, label) {
+      var opt = document.createElement('option');
+      opt.value = val;
+      opt.innerHTML = label;
+      AddressProvinceNew.appendChild(opt);
+    }
+
+    AddressCountryNew.addEventListener("change", function(el) {
+      var selectedCountry = document.querySelector(`option[value="${
+        el.target.value
+      }"]`).dataset.provinces
+
+      var provinceSelect = document.querySelectorAll('#AddressProvinceNew option')
+
+      provinceSelect.forEach((prov) => {
+        prov.remove()
+      })
+
+      var getProvince = JSON.parse(selectedCountry)
+
+      if (getProvince.length) {
+        getProvince.forEach((item) => {
+          appendProvince(item[0], item[1])
+          AddressProvinceContainerNew.style.display = 'block'
+        })
+      } else {
+        AddressProvinceContainerNew.style.display = 'none'
+      }
+    });
+
+    document.querySelectorAll('.remove-address').forEach((el) => {
+      el.addEventListener("click", function(i) {
+        if (confirm(i.target.getAttribute("data-confirm-message"))) {
+          Shopify.postLink(i.target.dataset.target, {
+            parameters: {
+              _method: 'delete'
+            }
+          });
+        }
+      })
+    })
+  }
+</script>

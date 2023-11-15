@@ -1,0 +1,28 @@
+{
+  "current": {
+    "favicon": "shopify:\/\/shop_images\/favicon_92cb96e1-8718-4fe4-949b-1588c2365be4.png",
+    "sections": {
+      "top-bar": {
+        "type": "top-bar",
+        "settings": {}
+      },
+      "header": {
+        "type": "header",
+        "settings": {}
+      },
+      "products": {
+        "type": "products",
+        "settings": {}
+      },
+      "collections": {
+        "type": "collections",
+        "settings": {}
+      },
+      "footer": {
+        "type": "footer",
+        "settings": {}
+      }
+    },
+    "content_for_index": []
+  }
+}

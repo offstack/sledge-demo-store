@@ -1,0 +1,675 @@
+{% assign sledge_api_key = "fill_with_your_sledge_api_key" %}
+{% assign sledge_instant_search_api_key = "fill_with_your_sledge_instant_search_key" %}
+{% assign user_id = "" %}
+{% assign user_email = "" %}
+{% assign user_fullname = "" %}
+{% if customer %}
+  {% assign user_id = customer.id %}
+  {% assign user_email = customer.email %}
+  {% assign user_fullname = customer.name %}
+  {% if customer.name == null or customer.name == "" %}{% assign user_fullname = customer.email | split: "@" | first %}{% endif %}
+{% endif %}
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@sledge-app/js@latest/dist/style.css" />
+
+{% render 'sledge-dark-css' %}
+
+<script
+    type="module"
+    data-api-key="{{ sledge_api_key }}"
+    data-instant-search-api-key="{{ sledge_instant_search_api_key }}"
+    data-user-id="{{ user_id }}"
+    data-user-email="{{ user_email }}"
+    data-user-fullname="{{ user_fullname }}"
+    id="sledge-embed-script"
+    src="https://cdn.jsdelivr.net/npm/@sledge-app/js@latest/dist/sledge.min.js"
+></script>
+
+<script>
+  const consoleStyle = 'color: white; background: black; border: 1px solid white; padding: 2px 5px; border-radius: 350px;';
+
+  function onAfterAddWishlist({ state }) {
+      if (state === 'success') {
+          console.log('%cSledge', consoleStyle, `Add to wishlist: ${state}`);
+      } else {
+          console.error('%cSledge', consoleStyle, `Add to wishlist: ${state}`);
+      }
+  }
+
+  function onAfterRemoveWishlist({ state }) {
+      if (state === 'success') {
+          console.log('%cSledge', consoleStyle, `Remove from wishlist: ${state}`);
+      } else {
+          console.error('%cSledge', consoleStyle, `Remove from wishlist: ${state}`);
+      }
+  }
+
+  function onAfterAddToCart({ state }) {
+      if (state === 'success') {
+          console.log('%cSledge', consoleStyle, `Add to cart: ${state}`);
+      } else {
+          console.error('%cSledge', consoleStyle, `Add to cart: ${state}`);
+      }
+  }
+
+  function onAfterAddReview({ state }) {
+      if (state === 'success') {
+          console.log('%cSledge', consoleStyle, `Add review: ${state}`);
+      } else {
+          console.error('%cSledge', consoleStyle, `Add review: ${state}`);
+      }
+  }
+
+  function onAfterRenderProduct({ state }) {
+      if (state === 'success') {
+        window.ProductFormScript();
+      } else {
+        console.error('%cSledge', consoleStyle, `render product: ${state}`);
+      }
+  }
+
+  const shopifyAddToCart = async (data) => {
+    var myHeaders = new Headers();
+    myHeaders.append("Content-Type", "application/json");
+  
+    let items = [];
+    data.map((item) => {
+      const { id, quantity } = item;
+  
+      items.push({
+        id: id,
+        quantity: quantity,
+      });
+    });
+  
+    var raw = JSON.stringify({
+      items: items,
+    });
+  
+    var requestOptions = {
+      method: "POST",
+      headers: myHeaders,
+      body: raw,
+      redirect: "follow",
+    };
+  
+    if (!window?.Shopify?.routes) return;
+  
+    return await fetch(`${window.Shopify.routes.root}cart/add.js`, requestOptions)
+      .then((response) => response.json())
+      .then((result) => {
+        return result;
+      })
+      .catch(() => {
+        return;
+      });
+  };
+  
+  const handleAddToCart = async (data) => {
+    const { id, quantity } = data;
+  
+    let resShopifyAddToCart = await shopifyAddToCart([
+      {
+        id: id,
+        quantity: quantity,
+      },
+    ]);
+  
+    if (resShopifyAddToCart?.items?.length) {
+      window.location.href = "/cart";
+    } else {
+      alert(
+        resShopifyAddToCart?.description?.length
+          ? resShopifyAddToCart.description
+          : "failed add to cart, please try again"
+      );
+    }
+  };
+
+  //start product card code
+  function setSelectedOption(element,optionName) {
+    const optionsButton = element.target.offsetParent.querySelector(`.options-button-${optionName}`).querySelectorAll(`button`)
+
+    const defaultSelectedClassChanger = () => {
+      optionsButton.forEach((button, index) => {
+        button.classList.remove('is-selected', 'bg-green', '!text-black')
+        button.classList.add('text-dark4')
+        element.target.className += " is-selected bg-green !text-black"
+      })
+    }
+
+    const colorSelectedClassChanger = () => {
+      optionsButton.forEach((button, index) => {
+        button.classList.remove('border-green')
+        element.target.className += " border-green"
+      })
+    }
+
+    switch (optionName) {
+      case 'Color':
+        colorSelectedClassChanger()
+        break;
+      case 'Size':
+        defaultSelectedClassChanger()
+        break;
+      default:
+        defaultSelectedClassChanger()
+    }
+  }
+
+  function setSelectedVariant(element, value, optionIndex) {
+    const selectedInput = element.target.offsetParent.querySelector('.selected-option');
+    const parentCard = element.target.offsetParent;
+
+    const setOptionAttribute = () => {
+      //set option attribute
+      selectedInput.attributes[`data-selected-option${optionIndex}`].value =
+        value;
+    };
+    setOptionAttribute();
+
+    // define option1 and option 2
+    let option1 = `[data-option-1="${selectedInput.attributes['data-selected-option1'].value}"]`;
+    let option2 = `${
+      selectedInput.attributes['data-selected-option2']
+        ? `[data-option-2="${selectedInput.attributes['data-selected-option2'].value}"]`
+        : ''
+    }`;
+
+    // define selected option
+    const selectOption = parentCard.querySelector(
+      `select option${option1}${option2}`,
+    );
+    const variantIdLiquid = selectOption.attributes['data-id'].value;
+    const variantId = selectOption.attributes['data-graphql-id'].value;
+    const imageId = selectOption.attributes['data-image-id']?.value;
+
+    const setOther = () => {
+      //set data-variant-id attribute
+      selectedInput.attributes[`data-variant-id`].value =
+        selectOption.attributes['data-graphql-id'].value;
+
+      selectedInput.attributes[`data-id`].value =
+        selectOption.attributes['data-id'].value;
+
+      //change product image by variant
+      if (variantIdLiquid) parentCard.querySelector('.add-to-cart-input').value = variantIdLiquid;
+
+      if (imageId && imageId !== 'null')
+        parentCard.querySelector(`img.featured-image`).src =
+          parentCard.querySelector(
+            `div.variant-images img[id="${imageId}"]`,
+          ).src;
+    };
+
+    setOther();
+    
+    const result = {
+      variantIdLiquid,
+      imageId,
+    };
+
+    return result;
+  }
+
+  function renderSelectOptions(variants) {
+    return `
+      ${variants.map((variant) => {
+          const { title, option1, option2, position, id, admin_graphql_api_id, image_id } = variant;
+
+          let optionAttributes = {
+            'data-option-1': option1,
+            'data-option-2': option2,
+            'data-position': position,
+            'data-id': id,
+            'data-graphql-id': admin_graphql_api_id,
+            'data-image-id': image_id,
+          };
+
+          return `<option ${Object.keys(optionAttributes).reduce((acc, item) => acc + `${item}="${optionAttributes[item]}"`, '')}>${title}</option>`;
+        }).join('')
+      }
+    `
+  }
+
+  function renderOptionsButton(options,handle) {
+    return options.map((option,optionParentIndex) => {
+      const optionName = option[0];
+      const optionValues = option[1];
+      
+      selectedOption = optionValues[0]
+
+      if(optionValues[0] !== 'Default Title')
+      return `
+        <div class="flex gap-[6px] z-10 options-button-${optionName}">
+          ${optionValues.map((item) => {
+              const defaultOptionClass = ` ${ selectedOption === item ? 'is-selected bg-green text-black'
+                : 'bg-dark2 text-dark4' } z-10 py-[2px] px-2 rounded-[360px] font-inter text-[12px] leading-[19.2px] tracking-[-0.24px] capitalize`;
+
+              const colorOptionClass = `${
+                selectedOption === item ? 'border-green' : ''
+              } z-10 w-[23px] h-[23px] rounded-[360px] border border-solid`
+              
+              return `
+              <button
+                id="variant-button-${handle}"
+                type="button"
+                class="${optionName === 'Color'
+                ? colorOptionClass
+                : defaultOptionClass} variant-picker-button"
+                style="background-color:${optionName === 'Color' ? item : ''}"
+                onclick="setSelectedVariant(event, '${item}', ${optionParentIndex + 1}); setSelectedOption(event, '${optionName}')"
+              >
+                ${optionName === 'Color' ? '' : item.substring(0, 11)}
+            </button>`
+          }).join('')}
+        </div>
+      ` 
+    }).join('')
+  }
+
+  const productClickTrigger = ({ sourceApp, productId, url }) => {
+    console.log('url', url);
+    
+      if (typeof window !== 'undefined' && window.sledgeCommonModule && window.sledgeCommonModule.productClickTrigger)
+          window.sledgeCommonModule
+              .productClickTrigger({
+                  sourceApp,
+                  productId
+              })
+              .then(() => {
+                  window.location.href = url;
+              });
+  };
+
+  function renderProductCards({ product, sourceApp }) {
+    const { id, admin_graphql_api_id, title, image, handle, url, vendor, currency, variants, review } = product || {};
+    //console.log('product',product)
+    
+    const {
+        admin_graphql_api_id: variant_admin_graphql_api_id = '',
+        title: variant_title = '',
+        price = '',
+        sku = '',
+        is_out_of_stock = false
+    } = variants?.length ? variants[0] : {};
+
+    let variant_id = variants[0].id
+
+    const { total: totalReview, average: averageReview } = review || {};
+
+    const ratingTotalAttribute = typeof totalReview !== 'undefined' ? `data-rating-total="${totalReview}"` : '';
+    const ratingAverageAttribute = typeof averageReview !== 'undefined' ? `data-rating-average="${averageReview}"` : '';
+
+    const options = product.options ? Object.entries(product?.options) : [];
+    const images = product?.images ?? [];
+
+    const defaultSelected = {};
+
+    function setDefaultFunction() {
+      if (!variants?.length) return;
+      
+      defaultSelected['data-product-handle'] = product.handle;
+      defaultSelected['data-selected-option1'] = variants[0].option1;
+      if (variants[0].option2) {
+        defaultSelected['data-selected-option2'] = variants[0].option2;
+      }
+      defaultSelected['data-id'] = variants[0].id;
+      defaultSelected['data-variant-id'] = variants[0].admin_graphql_api_id;
+    }
+
+    setDefaultFunction();
+  
+    return `<div class="flex flex-col justify-between group relative product-card min-w-fit lg:min-w-[270px] lg:max-w-fit rounded-[21.593px] border-[0.9px] border-solid border-dark5 {{ additionalClass }}">
+      <div>
+        <div
+            data-component="wishlist-trigger"
+            data-product-id="${id}"
+            data-product-variant-id="${variant_id}"
+            data-product-name="${title}"
+            data-product-vendor="${vendor}"
+            data-product-sku="${sku}"
+            data-product-variant-name="${variant_title}"
+            data-product-link="${url}"
+            data-product-image="${image?.src || ''}"
+            data-product-currency="${currency}"
+            data-product-price="${price}"
+            data-on-after-add-wishlist="onAfterAddWishlist({ state })"
+            data-on-after-remove-wishlist="onAfterRemoveWishlist({ state })"
+        ></div>
+        <div class="aspect-h-1 bg-dark2 aspect-w-1 w-full overflow-hidden rounded-t-[24px] lg:aspect-none group-hover:opacity-75 lg:max-h-[270px] h-fit lg:h-[270px] flex justify-center items-center relative">
+          <img
+            alt="${title}"
+            decoding="async"
+            height="270"
+            loading="lazy"
+            src="${image?.src || ''}"
+            width="269.92"
+            style="aspect-ratio: 269.92 / 270;"
+            class="w-[269.92px] h-full max-h-[270px] featured-image"
+          >
+          <div class="variant-images hidden">
+            
+            ${
+              images.reduce((acc, image) => acc + `<img id=${image?.id} src=${image?.src}>`, '')
+            }
+          </div>
+          ${is_out_of_stock ? `
+            <div class="sledge__product-grid-card-out-of-stock">
+              Sold out
+            </div>
+          ` : ""}
+        </div>
+        <div class="mt-[16px] space-y-[8px] px-[16px] pb-[16.69px]">
+          <div class="flex justify-between">
+            <p class="font-bold text-[21.59px] leading-[25.91px]">$${price}</p>
+            ${vendor ? `<div class="flex border-[0.9px] border-solid border-dark3 rounded-[323.9px] w-fit">
+              <div class="flex px-[9px] py-[3.6px] justify-center items-center">
+                <p class="text-dark4 font-inter text-[10.8px] leading-[17.27px] tracking-[-0.216px]">Vendor: ${vendor}</p>
+              </div>
+            </div>` : ''}
+          </div>
+          <div>
+              <div data-component="product-review-rating" data-product-id="${id}" data-rating-size="xs" ${ratingTotalAttribute} ${ratingAverageAttribute}></div>
+          </div>
+          <div class="!mt-[11.5px]">
+            <a class="text-[18px] leading-[21.6px] font-bold " href="javascript:;" onclick="productClickTrigger({
+                sourceApp: '${sourceApp}',
+                productId: '${id}',
+                url: '${url}'
+            })">
+              <span aria-hidden="true" class="absolute inset-0"></span>
+              ${title}
+            </a>
+          </div>
+        </div>
+      </div>
+      <div class="flex justify-between px-[16px] pb-[16px] z-10">
+        <input type="hidden" 
+        ${
+          Object.keys(defaultSelected).reduce((acc, item) => acc + `${item}="${defaultSelected[item]}"`, '')
+        } 
+        class="selected-option" />
+        <select class="variant-picker hidden" style="display:none">
+          ${renderSelectOptions(variants)}
+        </select>
+        ${renderOptionsButton(options,handle)}
+      </div>
+      <div class="px-[16px] pb-[16px]">
+        <product-form class="product-form">
+          <form method="post" action="/cart/add" accept-charset="UTF-8" class="form" enctype="multipart/form-data"
+            novalidate="novalidate" data-type="add-to-cart-form"><input type="hidden" name="form_type"
+              value="product">
+              <input type="hidden" name="utf8" value="✓">
+              <input class="add-to-cart-input" type="hidden" name="id" value="${variant_id}">
+            <div class="product-form__buttons">
+              <button type="submit" name="add" ${is_out_of_stock ? "disabled" : `onclick="window?.sledgeCommonModule?.addToCartTrigger({
+                  sourceApp: '${sourceApp}',
+                  productId: '${id}'
+              });"`}
+              class="group/cart-button product-form__submit button relative z-10 inline-flex mt-[16px] items-center py-[11px] px-[16.33px] border-[0.9px] border-solid border-dark3 rounded-[323.9px] hover:bg-yellow disabled:bg-dark10 active:bg-yellow2 text-yellow hover:text-black active:text-black disabled:text-dark4 transition duration-200 w-full justify-center"
+                aria-haspopup="dialog">
+                <svg
+                  class="product-card-icon"
+                  width="18"
+                  height="17"
+                  viewBox="0 0 18 17"
+                  fill="none"
+                  xmlns="http://www.w3.org/2000/svg">
+                  <path d="M14.3711 6.04627C13.919 5.54693 13.2374 5.25677 12.2927 5.15555V4.64271C12.2927 3.71824 11.9013 2.82752 11.2131 2.20671C10.518 1.57241 9.6138 1.2755 8.67584 1.36322C7.06309 1.51842 5.70676 3.07719 5.70676 4.76417V5.15555C4.76205 5.25677 4.08051 5.54693 3.6284 6.04627C2.97385 6.77505 2.9941 7.74674 3.06833 8.42154L3.54068 12.1801C3.68238 13.496 4.21547 14.8455 7.11707 14.8455H10.8824C13.784 14.8455 14.3171 13.496 14.4588 12.1869L14.9312 8.41479C15.0054 7.74674 15.0189 6.77505 14.3711 6.04627ZM8.77031 2.30118C9.4451 2.24045 10.0862 2.44963 10.5855 2.90174C11.0781 3.34711 11.3548 3.98141 11.3548 4.64271V5.11506H6.64472V4.76417C6.64472 3.56304 7.63666 2.40915 8.77031 2.30118ZM6.58399 8.87365H6.57724C6.2061 8.87365 5.90245 8.56999 5.90245 8.19885C5.90245 7.82772 6.2061 7.52406 6.57724 7.52406C6.95512 7.52406 7.25878 7.82772 7.25878 8.19885C7.25878 8.56999 6.95512 8.87365 6.58399 8.87365ZM11.3075 8.87365H11.3008C10.9296 8.87365 10.626 8.56999 10.626 8.19885C10.626 7.82772 10.9296 7.52406 11.3008 7.52406C11.6787 7.52406 11.9823 7.82772 11.9823 8.19885C11.9823 8.56999 11.6787 8.87365 11.3075 8.87365Z" class="group-hover/cart-button:fill-black fill-yellow group-disabled/cart-button:fill-dark4 group-active/cart-button:fill-black" />
+                </svg>
+                <span class="mx-2 items-center hidden product-card-loader">
+                  <span class="mx-[1px] inline-block h-1 w-1 animate-blink rounded-md bg-dark4"></span>
+                  <span class="mx-[1px] inline-block h-1 w-1 animate-blink rounded-md duration-200 bg-dark4"></span>
+                  <span class="mx-[1px] inline-block h-1 w-1 animate-blink rounded-md duration-[400ms] bg-dark4"></span>
+                </span>
+                <span class="font-inter text-[12px] lg:text-[14px] font-semibold leading-[15.4px] tracking-[-0.56px] ml-[8px]">${is_out_of_stock ? "Sold Out" : "Add To Cart"}</span>
+              </button>
+            </div>
+          </form>
+        </product-form>
+      </div>
+    </div>`;
+  }
+
+  function renderCollectionCard({ data }) {
+      const { id, title, body_html, handle, image } = data;
+
+      return `
+      <a href="/collections/${handle}">
+          <div class="sledge__collection-grid-card">
+              <div class="sledge__collection-grid-card-image-wrapper">
+                  <div class="sledge__collection-grid-card-image">
+                      <img src="${image?.src || `https://sledge-api-preprod.offstack.io/img/blank-image.png`}" alt="sledge-card-image" loading="lazy" />
+                  </div>
+              </div>
+              <div class="sledge__collection-grid-card-content">
+                  <div class="sledge__collection-grid-card-content-title">${title}</div>
+                  ${body_html ? `<div class="sledge__collection-grid-card-content-description">${body_html}</div>` : ''}
+              </div>
+          </div>
+      </a>`;
+  }
+
+  function renderPageCard({ data }) {
+      const { id, title, body_html, handle, image } = data;
+
+      return `
+      <a href="/pages/${handle}">
+          <div class="sledge__page-grid-card">
+              <div class="sledge__page-grid-card-image-wrapper">
+                  <div class="sledge__page-grid-card-image">
+                      <img src="${image?.src || `https://sledge-api-preprod.offstack.io/img/blank-image.png`}" alt="sledge-card-image" loading="lazy" />
+                  </div>
+              </div>
+              <div class="sledge__page-grid-card-content">
+                  <div class="sledge__page-grid-card-content-title">${title}</div>
+                  ${body_html ? `<div class="sledge__page-grid-card-content-description">${body_html}</div>` : ''}
+              </div>
+          </div>
+      </a>`;
+  }
+
+  function renderBlogCard({ data }) {
+      const { id, title, created_at, handle, image } = data;
+
+      return `
+        <div class="relative h-full flex flex-col justify-between border-[0.9px] border-solid border-dark5 rounded-[21.593px]">
+          <div>
+            <a href="/blogs/${handle}" class="w-full block">
+                <img class="h-[200px] w-full rounded-t-[21.593px] object-cover" src="${image?.src || `https://sledge-api-preprod.offstack.io/img/blank-image.png`}" alt="sledge-card-image" loading="lazy" />
+            </a>
+          </div>
+          <div class="mt-[16px] px-[16px]">
+            <a href="/blogs/${handle}">
+                <div class="text-white text-[21.593px] font-bold leading-[25.912px]">${title}</div>
+            </a>
+          </div>
+          <div class="mt-[8px] px-[16px] pb-[16px]">
+            ${
+              created_at
+                  ? `<div class="w-fit px-[9px] py-[3.6px] rounded-[323.9px] border-[0.9px] border-solid border-dark3 text-dark4 font-inter text-[10.797px] leading-[17.275px] tracking-[-0.216px]">${new Date(created_at).toLocaleString('en-US', {
+                        timeZone: 'Asia/Jakarta',
+                        year: 'numeric',
+                        month: 'numeric',
+                        day: 'numeric'
+                    })}</div>`
+                  : ''
+            }
+            
+            <a href="/blogs/${handle}" class="group/blog-button product-form__submit button relative z-10 inline-flex mt-[16px] items-center py-[11px] px-[16.33px] border-[0.9px] border-solid border-dark3 rounded-[323.9px] hover:bg-yellow disabled:bg-dark10 active:bg-yellow2 text-yellow hover:text-black active:text-black disabled:text-dark4 transition duration-200 w-full justify-center">
+              <span class="sledge-icon__note">
+                  <svg
+                      width="16"
+                      height="16"
+                      viewBox="0 0 17 16"
+                      fill="none"
+                      xmlns="http://www.w3.org/2000/svg"
+                      class="group-hover/blog-button:fill-black fill-yellow group-disabled/blog-button:fill-dark4 group-active/blog-button:fill-black"
+                  >
+                      <g id="vuesax/bold/note-2">
+                          <path
+                          id="Vector"
+                          d="M8.95178 13.3046C9.13494 13.3473 9.15172 13.5871 8.97332 13.6466L7.91998 13.9933C5.27332 14.8466 3.87998 14.1333 3.01998 11.4866L2.16665 8.85328C1.31332 6.20661 2.01998 4.80661 4.66665 3.95328L4.67731 3.94975C5.08018 3.81633 5.48102 4.22359 5.37901 4.63553C5.37264 4.66126 5.3663 4.68718 5.35998 4.71328L4.70665 7.50661C3.97332 10.6466 5.04665 12.3799 8.18665 13.1266L8.95178 13.3046Z"
+                          fill="#000000"
+                          class="group-hover/blog-button:fill-black fill-yellow group-disabled/blog-button:fill-dark4 group-active/blog-button:fill-black"
+                          ></path>
+                          <path
+                          id="Vector_2"
+                          d="M11.9467 2.14033L10.8334 1.88033C8.6067 1.35366 7.28004 1.787 6.50004 3.40033C6.30004 3.807 6.14004 4.30033 6.00671 4.867L5.35337 7.66033C4.70004 10.447 5.56004 11.8203 8.34004 12.4803L9.46004 12.747C9.8467 12.8403 10.2067 12.9003 10.54 12.927C12.62 13.127 13.7267 12.1537 14.2867 9.747L14.94 6.96033C15.5934 4.17366 14.74 2.79366 11.9467 2.14033ZM10.6934 8.887C10.6334 9.11366 10.4334 9.26033 10.2067 9.26033C10.1667 9.26033 10.1267 9.25366 10.08 9.247L8.14004 8.75366C7.87337 8.687 7.71337 8.41366 7.78004 8.147C7.84671 7.88033 8.12004 7.72033 8.38671 7.787L10.3267 8.28033C10.6 8.347 10.76 8.62033 10.6934 8.887ZM12.6467 6.63366C12.5867 6.86033 12.3867 7.007 12.16 7.007C12.12 7.007 12.08 7.00033 12.0334 6.99366L8.80004 6.17366C8.53337 6.107 8.37337 5.83366 8.44004 5.567C8.50671 5.30033 8.78004 5.14033 9.04671 5.207L12.28 6.027C12.5534 6.087 12.7134 6.36033 12.6467 6.63366Z"
+                          class="group-hover/blog-button:fill-black fill-yellow group-disabled/blog-button:fill-dark4 group-active/blog-button:fill-black"
+                          fill="#000000"
+                          ></path>
+                      </g>
+                  </svg>
+              </span>
+              <span class="font-inter text-[12px] lg:text-[14px] font-semibold leading-[15.4px] tracking-[-0.56px] ml-[8px] text-yellow group-hover/blog-button:text-black">View Blog</span>
+            </a>
+          </div>
+        </div>
+      `;
+  }
+
+  function renderArticleCard({ data }) {
+      const { id, title, created_at, summary_html,body_html, blog_handle, handle, image } = data;
+
+      return `
+      <div class="relative h-full flex flex-col justify-between border-[0.9px] border-solid border-dark5 rounded-[21.593px]">
+        <div>
+          <a href="/blogs/${blog_handle}/${handle}" class="w-full block">
+              <img class="h-[200px] w-full rounded-t-[21.593px] object-cover" src="${image?.src || `https://sledge-api-preprod.offstack.io/img/blank-image.png`}" alt="sledge-card-image" loading="lazy" />
+          </a>
+        </div>
+        <div class="mt-[16px] px-[16px]">
+          <a href="/blogs/${blog_handle}/${handle}">
+              <div class="text-white text-[21.593px] font-bold leading-[25.912px]">${title}</div>
+          </a>
+        </div>
+        <div class="mt-[8px] px-[16px] pb-[16px]">
+          ${
+            created_at
+                ? `<div class="w-fit px-[9px] py-[3.6px] rounded-[323.9px] border-[0.9px] border-solid border-dark3 text-dark4 font-inter text-[10.797px] leading-[17.275px] tracking-[-0.216px]">${new Date(created_at).toLocaleString('en-US', {
+                      timeZone: 'Asia/Jakarta',
+                      year: 'numeric',
+                      month: 'numeric',
+                      day: 'numeric'
+                  })}</div>`
+                : ''
+          }
+          ${summary_html || body_html  ? `<div class="mt-[15.72px] text-dark4 font-inter text-[14px] leading-[22.4px] tracking-[-0.28px]">${summary_html ? summary_html : body_html}</div>` : ''}
+          <a href="/blogs/${blog_handle}/${handle}" class="group/article-button product-form__submit button relative z-10 inline-flex mt-[16px] items-center py-[11px] px-[16.33px] border-[0.9px] border-solid border-dark3 rounded-[323.9px] hover:bg-yellow disabled:bg-dark10 active:bg-yellow2 text-yellow hover:text-black active:text-black disabled:text-dark4 transition duration-200 w-full justify-center">
+            <span class="sledge-icon__note">
+                <svg
+                    width="16"
+                    height="16"
+                    viewBox="0 0 17 16"
+                    fill="none"
+                    xmlns="http://www.w3.org/2000/svg"
+                    class="group-hover/article-button:fill-black fill-yellow group-disabled/article-button:fill-dark4 group-active/article-button:fill-black"
+                >
+                    <g id="vuesax/bold/note-2">
+                        <path
+                        id="Vector"
+                        d="M8.95178 13.3046C9.13494 13.3473 9.15172 13.5871 8.97332 13.6466L7.91998 13.9933C5.27332 14.8466 3.87998 14.1333 3.01998 11.4866L2.16665 8.85328C1.31332 6.20661 2.01998 4.80661 4.66665 3.95328L4.67731 3.94975C5.08018 3.81633 5.48102 4.22359 5.37901 4.63553C5.37264 4.66126 5.3663 4.68718 5.35998 4.71328L4.70665 7.50661C3.97332 10.6466 5.04665 12.3799 8.18665 13.1266L8.95178 13.3046Z"
+                        fill="#000000"
+                        class="group-hover/article-button:fill-black fill-yellow group-disabled/article-button:fill-dark4 group-active/article-button:fill-black"
+                        ></path>
+                        <path
+                        id="Vector_2"
+                        d="M11.9467 2.14033L10.8334 1.88033C8.6067 1.35366 7.28004 1.787 6.50004 3.40033C6.30004 3.807 6.14004 4.30033 6.00671 4.867L5.35337 7.66033C4.70004 10.447 5.56004 11.8203 8.34004 12.4803L9.46004 12.747C9.8467 12.8403 10.2067 12.9003 10.54 12.927C12.62 13.127 13.7267 12.1537 14.2867 9.747L14.94 6.96033C15.5934 4.17366 14.74 2.79366 11.9467 2.14033ZM10.6934 8.887C10.6334 9.11366 10.4334 9.26033 10.2067 9.26033C10.1667 9.26033 10.1267 9.25366 10.08 9.247L8.14004 8.75366C7.87337 8.687 7.71337 8.41366 7.78004 8.147C7.84671 7.88033 8.12004 7.72033 8.38671 7.787L10.3267 8.28033C10.6 8.347 10.76 8.62033 10.6934 8.887ZM12.6467 6.63366C12.5867 6.86033 12.3867 7.007 12.16 7.007C12.12 7.007 12.08 7.00033 12.0334 6.99366L8.80004 6.17366C8.53337 6.107 8.37337 5.83366 8.44004 5.567C8.50671 5.30033 8.78004 5.14033 9.04671 5.207L12.28 6.027C12.5534 6.087 12.7134 6.36033 12.6467 6.63366Z"
+                        class="group-hover/article-button:fill-black fill-yellow group-disabled/article-button:fill-dark4 group-active/article-button:fill-black"
+                        fill="#000000"
+                        ></path>
+                    </g>
+                </svg>
+            </span>
+            <span class="font-inter text-[12px] lg:text-[14px] font-semibold leading-[15.4px] tracking-[-0.56px] ml-[8px] text-yellow group-hover/article-button:text-black">View Article</span>
+          </a>
+        </div>
+      </div>
+      `;
+  }
+  
+  function renderSuggestionKeywordLists({ keywords }) {
+    return `
+    <div class="sledge-instant-search__icon-widget-search-form-result-title">
+        Suggestions
+    </div>
+    <ul class="sledge-instant-search__icon-widget-search-form-result-list">
+        ${keywords
+            .map((keyword, index) => {
+                return `
+            <li>
+            <a
+                href="/pages/search-result?q=${keyword}"
+                class="sledge-instant-search__icon-widget-search-form-result-list-link sledge-instant-search__icon-widget-search-form-result-list-link-suggestion"
+            >
+                <span class="sledge-icon__search">
+                <svg width="12" height="12" viewBox="0 0 20 21" fill="none" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" clip-rule="evenodd" d="M9.78283 2.16669C14.2578 2.16669 17.8978 5.80669 17.8978 10.2817C17.8978 12.393 17.0876 14.3186 15.7617 15.7638L18.3707 18.3673C18.6148 18.6114 18.6157 19.0064 18.3715 19.2506C18.2498 19.3739 18.089 19.4348 17.929 19.4348C17.7698 19.4348 17.6098 19.3739 17.4873 19.2523L14.8469 16.6192C13.4579 17.7316 11.6967 18.3975 9.78283 18.3975C5.30783 18.3975 1.66699 14.7567 1.66699 10.2817C1.66699 5.80669 5.30783 2.16669 9.78283 2.16669ZM9.78283 3.41669C5.99699 3.41669 2.91699 6.49585 2.91699 10.2817C2.91699 14.0675 5.99699 17.1475 9.78283 17.1475C13.5678 17.1475 16.6478 14.0675 16.6478 10.2817C16.6478 6.49585 13.5678 3.41669 9.78283 3.41669Z" fill="currentColor"></path></svg>
+                </span> ${keyword}
+            </a>
+            </li>
+        `;
+            })
+            .join('\n')}
+    </ul>`;
+  }
+  
+  function renderOtherIndexLists({ name, items }) {
+    return `
+    <div class="sledge-instant-search__icon-widget-search-form-result-title">
+        ${name}
+    </div>
+    ${
+        items?.length
+            ? `
+        <ul class="sledge-instant-search__icon-widget-search-form-result-list">
+        ${items
+            .map((hit, index) => {
+                const { title, handle,blog_handle } = hit;
+  
+                let pathUrl = '';
+  
+                if (String(name)?.toLowerCase().includes('collections')) {
+                    pathUrl = `/collections/${handle}`;
+                } else if (String(name)?.toLowerCase().includes('pages')) {
+                    pathUrl = `/pages/${handle}`;
+                } else if (String(name)?.toLowerCase().includes('blogs')) {
+                    pathUrl = `/blogs/${handle}`;
+                } else if (String(name)?.toLowerCase().includes('articles')) {
+                    pathUrl = `/blogs/${blog_handle}/${handle}`;
+                }
+  
+                return `
+            <li>
+                <a
+                href="${pathUrl}"
+                class="sledge-instant-search__icon-widget-search-form-result-list-link"
+                >
+                ${title}
+                </a>
+            </li>
+            `;
+            })
+            .join('\n')}
+        </ul>
+    `
+            : `
+        <ul class="sledge-instant-search__icon-widget-search-form-result-list">
+        <li class="sledge-instant-search__icon-widget-search-form-result-item-disabled">
+            No ${name?.toLowerCase()} were found
+        </li>
+        </ul>
+    `
+    }
+    `;
+  }
+  
+  function renderSearchViewMoreResult({ keyword }) {
+    return `
+        <a href="/pages/search-result?q=${keyword}" class="sledge-instant-search__icon-widget-button-more">
+            View More Result
+        </a>
+    `;
+  }
+</script>

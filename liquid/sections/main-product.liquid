@@ -1,0 +1,168 @@
+{%- assign product_form_id = 'product-form-' | append: section.id -%}
+{%- assign stock = product.selected_or_first_available_variant.available -%}
+
+<div class="max-w-[1170px] mx-auto px-5 lg:px-20 xl:px-0">
+  <div class="flex flex-wrap lg:flex-nowrap lg:items-start lg:gap-x-[50px] pt-[32px]">
+    {% render 'product-media' with: product %}
+    <div class="mt-7 sm:mt-16 lg:mt-0 w-full lg:w-[520px]">
+      {% render 'product-details', with product: product  %}
+      <div class="grid gap-10">
+        <div class="grid">
+          {%- unless product.has_only_default_variant -%}
+          <variant-radios class="no-js-hidden" data-section="{{ section.id }}" data-url="{{ product.url }}"
+            {{ block.shopify_attributes }}>
+            {%- for option in product.options_with_values -%}
+            <div class="mt-[24px]">
+              <div class="flex items-center justify-between">
+                <h6 class="text-[18px] leading-[21.6px]">
+                  {{ option.name }}
+                </h6>
+              </div>
+              <fieldset class="js product-form__input mt-[14px]">
+                <legend class="sr-only">Choose a {{ option.name }}</legend>
+                <div class="flex flex-wrap gap-[16px]">
+                  {% if option.name == 'Size' %}
+                  {%- for value in option.values -%}
+                  <div class="{{ option.position }}-{{ forloop.index0 }}">
+                    <input type="radio" id="{{ section.id }}-{{ option.position }}-{{ forloop.index0 }}"
+                      name="{{ option.name }}" value="{{ value | escape }}" form="{{ product_form_id }}"
+                      class="peer hidden" {% if option.selected_value == value %} checked {% endif %}>
+                    <label
+                      class="cursor-pointer font-inter text-dark4 lg:text-[16px] leading-[25.6px] tracking-[-0.32px] bg-dark2 py-[6px] px-[14px] rounded-[360px] peer-checked:text-black peer-checked:bg-green hover:opacity-75"
+                      for="{{ section.id }}-{{ option.position }}-{{ forloop.index0 }}">
+                      {{ value }}
+                    </label>
+                  </div>
+                  {%- endfor -%}
+                  {%else%}
+                  {%- for value in option.values -%}
+                  <div class="{{ option.position }}-{{ forloop.index0 }}">
+                    <input type="radio" id="{{ section.id }}-{{ option.position }}-{{ forloop.index0 }}"
+                      name="{{ option.name }}" value="{{ value | escape }}" form="{{ product_form_id }}"
+                      class="peer hidden" {% if option.selected_value == value %} checked {% endif %}>
+                    <label style="background-color:{{ value }};"
+                      class="block w-[30px] h-[30px] rounded-[360px] border-[1px] border-solid border-gray-800 focus:outline-none cursor-pointer hover:opacity-75 peer-checked:border-green"
+                      for="{{ section.id }}-{{ option.position }}-{{ forloop.index0 }}">
+                    </label>
+                  </div>
+                  {%- endfor -%}
+                  {% endif %}
+                </div>
+              </fieldset>
+            </div>
+            {%- endfor -%}
+            <script type="application/json">
+              {{ product.variants | json }}
+            </script>
+            <script id="selected-variant-json">
+              {% for variant in product.variants %}
+                {% if forloop.index0 == 0 %} [ {% endif %}
+                  { 
+                    "inventory_quantity" : {{ variant.inventory_quantity | json}}
+                  }
+                {% if forloop.last == false %}, {% else %} ]{% endif %}{% endfor %}
+            </script> 
+          </variant-radios>
+          {%- endunless -%}
+
+          <div class="grid items-stretch">
+            <div class="mt-[24px]">
+              <h6 class="text-[18px] leading-[21.6px]">Quantity</h6>
+              <div class="flex gap-[12px] mt-[16px] items-center">
+                <div class="w-fit">
+                  <label for="quantity" class="sr-only">Quantity </label>
+                  <quantity-input class="quantity flex items-center bg-dark2 rounded-[8px] py-[4px] px-[8px]">
+                    <button
+                      class="quantity__button no-js-hidden flex justify-center items-center text-dark4 w-[16px] h-[16px] transition hover:opacity-75"
+                      name="minus" type="button">
+                      -
+                    </button>
+                    <input class="main-product quantity__input bg-dark2 font-sledge-font-family-3 text-white
+                    !p-0 text-[12px] leading-[15px] tracking-[-0.02em] md:text-[14px] max-w-[38px] border-transparent text-center 
+                    [-moz-appearance:_textfield] sm:text-sm [&::-webkit-outer-spin-button]:m-0 [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:m-0 [&::-webkit-inner-spin-button]:appearance-none 
+                    focus:border-none focus:box-shadow-none" type="number" name="quantity"
+                      id="Quantity-{{ section.id }}" min="1" autocomplete="off" data-max-quantity="{{ product.selected_or_first_available_variant.inventory_quantity }}"
+                      value="1" form="{{ product_form_id }}">
+                    <button
+                      class="quantity__button no-js-hidden flex justify-center items-center text-dark4 w-[16px] h-[16px] transition hover:opacity-75"
+                      name="plus" type="button">
+                      +
+                    </button>
+                  </quantity-input>
+
+                </div>
+                <span class="font-inter text-dark4 font-medium text-[14px] leading-[22.4px] tracking-[-0.28px]">Stock:
+                  <span class="selected-inventory-quantity">{{ product.selected_or_first_available_variant.inventory_quantity }}</span> pcs
+                </span>
+              </div>
+            </div>
+            <product-form class="product-form">
+              <div class="product-form__error-message-wrapper" role="alert" hidden=""
+                style="margin-top: 20px;">
+                <div class="flex">
+                  <span class="product-form__error-message text-red2" style="margin-left: 8px;"></span>
+                </div>
+              </div>
+              <div class="mt-[32px] flex flex-wrap gap-[12px] max-w-[350px]">
+                {%- form 'product', product, id: product_form_id, class: 'form', novalidate: 'novalidate', data-type: 'add-to-cart-form' -%}
+                <input type="hidden" id="selected-quantity" value="{{ product.selected_or_first_available_variant.inventory_quantity }}" disabled>
+                <input type="hidden" name="id" value="{{ product.selected_or_first_available_variant.id }}" disabled>
+                <div class="product-form__buttons">
+                  <button type="submit" name="add"
+                    class="btn-add-to-cart group/product-add-cart product-form__submit button p-[14px] border-[1px] border-solid border-dark4 disabled:border-dark3 rounded-[360px] hover:bg-green hover:border-transparent disabled:cursor-default disabled:pointer-events-none transition-all duration-200"
+                    {% if stock == false %} disabled {% endif %}>
+                    <span class="hidden"></span>
+                    <svg class="cart-icon" width="18" height="18" viewBox="0 0 18 18" fill="none"
+                      xmlns="http://www.w3.org/2000/svg">
+                      <path fill-rule="evenodd" clip-rule="evenodd"
+                        d="M8.83562 1.50022C10.796 1.50022 12.4155 2.99397 12.6152 4.90441L12.6709 4.90507C13.7584 4.90507 15.0806 5.62732 15.5269 7.65307L16.1186 12.2333C16.3309 13.7116 16.0654 14.8973 15.3281 15.7478C14.5946 16.5938 13.4336 17.0416 11.9704 17.0416H5.7094C4.10215 17.0416 2.9824 16.6478 2.28565 15.8386C1.5859 15.0271 1.3519 13.8098 1.5904 12.2213L2.1724 7.70182C2.5549 5.62957 3.95365 4.90507 5.03665 4.90507C5.13014 4.04293 5.51889 3.22275 6.13562 2.60797C6.84437 1.90372 7.82162 1.50022 8.81987 1.50022H8.83562ZM12.6709 6.03007H5.03665C4.7059 6.03007 3.6004 6.16357 3.28315 7.87657L2.70415 12.3766C2.5159 13.6388 2.6614 14.5523 3.13765 15.1051C3.6079 15.6511 4.4494 15.9166 5.7094 15.9166H11.9704C12.7564 15.9166 13.8296 15.7598 14.4776 15.0113C14.9921 14.4181 15.1691 13.5346 15.0041 12.3848L14.4199 7.84582C14.1709 6.72757 13.5139 6.03007 12.6709 6.03007ZM11.023 8.11814C11.3335 8.11814 11.6027 8.37014 11.6027 8.68064C11.6027 8.99114 11.368 9.24314 11.0575 9.24314H11.023C10.7125 9.24314 10.4605 8.99114 10.4605 8.68064C10.4605 8.37014 10.7125 8.11814 11.023 8.11814ZM6.65042 8.11814C6.96092 8.11814 7.23017 8.37014 7.23017 8.68064C7.23017 8.99114 6.99467 9.24314 6.68417 9.24314H6.65042C6.33992 9.24314 6.08792 8.99114 6.08792 8.68064C6.08792 8.37014 6.33992 8.11814 6.65042 8.11814ZM8.83337 2.62522H8.82212C8.11637 2.62522 7.42862 2.90947 6.92987 3.40522C6.5236 3.80967 6.25789 4.34137 6.17193 4.90472L11.4814 4.90493C11.2887 3.61625 10.1743 2.62522 8.83337 2.62522Z"
+                        class="fill-dark4 group-disabled/product-add-cart:fill-dark3 group-hover/product-add-cart:fill-black"></path>
+                    </svg>
+                    <svg class="loading-overlay__spinner hidden h-5 w-5 animate-spin text-gray-500"
+                      xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                      <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4" />
+                      <path class="opacity-75" fill="currentColor"
+                        d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z" />
+                    </svg>
+                  </button>
+                </div>
+                {%- endform -%}
+                <form id="checkout-button" action="/cart/{{ product.selected_or_first_available_variant.id }}:1">
+                  <input {% if stock == false %} disabled {% endif %} class="btn-checkout cursor-pointer disabled:cursor-default disabled:pointer-events-none py-[17px] px-[107px] max-w-[290px] hover:text-black active:text-black disabled:text-dark4 bg-yellow active:bg-yellow2 disabled:bg-dark10 rounded-[360px] font-inter font-[700] text-[14px] leading-[14px] tracking-[-0.28px] text-black hover:opacity-75 active:opacity-100 transition-all duration-200" type="submit" value="Buy It Now!" />
+                </form>
+                {% render 'sledge-wishlist-button-detail' with product: product %}
+
+              </div>
+            </product-form>
+          </div>
+        </div>
+      </div>
+      {% render 'product-accordion' %}
+    </div>
+  </div>
+  <div>
+    {% render 'sledge-product-review-widget' with product: product %}
+  </div>
+  {% render 'product-recommendation' with product: product %}
+</div>
+
+<script>
+  const mainProductQuantityInput = document.querySelector(
+    ".main-product.quantity__input"
+  );
+
+  const stockValidator = (event) => {
+    let value = event.target.value
+    let dataMax = event.target.attributes['data-max-quantity'].value
+
+    if((Number(value) == 0)) {
+      event.target.value = 1
+    }
+  }
+
+  ['change','keyup'].forEach((evt) => {
+    mainProductQuantityInput.addEventListener(evt, (event) => {
+      stockValidator(event)
+    });
+  })
+</script>

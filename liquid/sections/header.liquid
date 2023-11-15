@@ -1,0 +1,158 @@
+<script src="{{ 'cart-drawer.js' | asset_url }}" defer="defer"></script>
+<sticky-header>
+  <header class="bg-dark header">
+    {% comment %} desktop {% endcomment %}
+    <nav class="flex items-center justify-between py-[24px] max-w-[1170px] mx-auto px-5 lg:px-20 xl:px-0 border-b border-solid border-dark5" aria-label="Mega Menu">
+      <div class="flex items-center gap-x-[180px]">
+        <a href="/" class="-m-1.5 p-1.5 hover:text-sledge-color-text-hover transition duration-200 flex gap-[12px] items-center">
+          {% render 'sledge-logo' %}
+        </a>
+      </div>
+      <div class="hidden lg:flex lg:gap-x-[32px]">
+        {% for link in linklists.main-menu.links %}
+          <a class="text-[16px] font-inter {% if link.active %} text-green {% else %} text-white {% endif %} leading-[17.6px] tracking-[-0.32px] hover:text-green transition duration-200" href="{{link.url}}">
+            {{ link.title }}
+          </a>
+        {% endfor %}
+      </div>
+      <div class="flex lg:hidden">
+        <button
+          type="button"
+          class="-m-2.5 inline-flex items-center justify-center rounded-md p-2.5 text-gray-700"
+          id="open-drawer">
+          <span class="sr-only">Open main menu</span>
+          <svg
+            class="h-6 w-6"
+            fill="none"
+            view-box="0 0 24 24"
+            stroke-width="1.5"
+            stroke="currentColor"
+            aria-hidden="true">
+            <path
+              stroke-line-cap="round"
+              stroke-line-join="round"
+              d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5" />
+          </svg>
+        </button>
+      </div>
+      <div class="hidden lg:flex gap-[20px] mt-[-8px]">
+        {% render 'sledge-instant-search-icon-widget' %}
+        {% render 'sledge-wishlist-badge-header-menu' %}
+        <a
+          href="{{ routes.cart_url }}"
+          class="header__icon header__icon--cart link focus-inset hover:opacity-75"
+          id="cart-icon-bubble">
+          {%- liquid
+          if cart == empty
+            render 'icon-cart-empty'
+          else
+            render 'icon-cart'
+          endif
+        -%}
+          <span class="visually-hidden hidden">{{ 'templates.cart.cart' | t }}</span>
+          {%- if cart != empty -%}
+            <div class="cart-count-bubble relative">
+              {%- if cart.item_count < 100 -%}
+                <span aria-hidden="true" class="hidden">{{ cart.item_count }}</span>
+              {%- endif -%}
+              <span class="absolute bottom-[-5px] right-[-3.25px] bg-red rounded-full font-[600] text-[8px] leading-[110%] tracking-[-.02em] text-white w-[15px] h-[15px] flex justify-center items-center">{{ cart.item_count }}</span>
+            </div>
+          {%- endif -%}
+        </a>
+      </div>
+    </nav>
+    {% comment %} mobile {% endcomment %}
+    <div
+      class="hidden mobile-dialog"
+      role="dialog"
+      aria-modal="true">
+      <div class="fixed inset-0 z-20" />
+      <div class="fixed inset-y-0 right-0 z-20 w-full overflow-y-auto bg-dark px-6 py-6 sm:max-w-sm sm:ring-1 sm:ring-gray-900/10">
+        <div class="flex items-center justify-between">
+          <a href="/" class="-m-1.5 p-1.5">
+            {% render 'sledge-logo' %}
+          </a>
+          <button
+            type="button"
+            class="-m-2.5 rounded-md p-2.5 text-gray-700"
+            id="close-drawer">
+            <span class="sr-only">Close menu</span>
+            <svg
+              class="h-6 w-6"
+              fill="none"
+              view-box="0 0 24 24"
+              stroke-width="1.5"
+              stroke="currentColor"
+              aria-hidden="true">
+              <path
+                stroke-line-cap="round"
+                stroke-line-join="round"
+                d="M6 18L18 6M6 6l12 12" />
+            </svg>
+          </button>
+        </div>
+        <div class="mt-6 flow-root">
+          <div class="-my-6 divide-y divide-gray-500/10">
+            <div class="space-y-2 py-6 ">
+              {% for link in linklists.main-menu.links %}
+                <a href="{{link.url}}" class="-mx-3 block rounded-lg px-3 py-2 text-base font-semibold leading-7 hover:text-yellow transition duration-200">{{ link.title }}</a>
+              {% endfor %}
+            </div>
+            <div class="py-6">
+              <div class="flex gap-[20px]">
+                {% comment %} TODO: badge not render in mobile {% endcomment %}
+                {% render 'sledge-instant-search-icon-widget' %}
+                {% render 'sledge-wishlist-badge-header-menu' %}
+                <a
+                  href="{{ routes.cart_url }}"
+                  class="header__icon header__icon--cart link focus-inset hover:opacity-75"
+                  id="cart-icon-bubble">
+                  {%- liquid
+          if cart == empty
+            render 'icon-cart-empty'
+          else
+            render 'icon-cart'
+          endif
+        -%}
+                  <span class="visually-hidden hidden">{{ 'templates.cart.cart' | t }}</span>
+                  {%- if cart != empty -%}
+                    <div class="cart-count-bubble relative">
+                      {%- if cart.item_count < 100 -%}
+                        <span aria-hidden="true" class="hidden">{{ cart.item_count }}</span>
+                      {%- endif -%}
+                      <span class="absolute bottom-[-4.33px] right-[-3.25px] bg-red rounded-full font-sledge-font-family-1 font-[600] text-[8px] leading-[110%] tracking-[-.02em] text-white w-[15px] h-[15px] flex justify-center items-center">{{ cart.item_count }}</span>
+                    </div>
+                  {%- endif -%}
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </header>
+</sticky-header>
+
+<script>
+  const open = document.querySelector('#open-drawer');
+  const close = document.querySelector('#close-drawer');
+  const dialog = document.querySelector('.mobile-dialog');
+
+  function closeDrawer() {
+    dialog.setAttribute('style', 'display:none')
+  }
+
+  function openDrawer() {
+    dialog.setAttribute('style', 'display:block;')
+  }
+
+  open.addEventListener('click', openDrawer);
+  close.addEventListener('click', closeDrawer);
+</script>
+
+{% schema %}
+  {
+    "name": "t:sections.header.name",
+    "class": "section-header"
+  }
+{% endschema %}

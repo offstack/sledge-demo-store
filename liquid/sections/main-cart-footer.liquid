@@ -1,0 +1,94 @@
+<div
+  class="max-w-[1170px] mx-auto px-5 lg:px-20 xl:px-0 {% if cart == empty %} is-empty {% endif %}"
+  id="main-cart-footer"
+  data-id="{{ section.id }}">
+  <div class="lg:w-fit ml-auto">
+    <div class="cart__footer flex flex-col gap-[16px] w-full lg:w-[330px]">
+      <div class="js-contents">
+        <div
+          id="Cart-CartErrors"
+          class="hidden text-red2 mb-1 mt-3"
+          role="alert"></div>
+        <div class="pb-[40.11px] divide-y divide-dark8">
+          <div class="flex justify-between py-[24.13px]">
+            <p class="font-inter text-[16px] leading-[19.2px] text-dark4">
+              Taxes
+            </p>
+            <p class="font-inter text-[16px] leading-[19.2px] text-dark4">Calculated at checkout</p>
+          </div>
+          <div class="flex justify-between py-[24.13px]">
+            <p class="font-inter text-[16px] leading-[19.2px] text-dark4">
+              Shipping
+            </p>
+            <p class="font-inter text-[16px] leading-[19.2px] text-dark4">Calculated at checkout</p>
+          </div>
+          <div class="flex justify-between pt-[24.13px]">
+            <p class="font-inter text-[16px] leading-[19.2px] text-dark4">
+              Total
+            </p>
+            <p class="font-inter text-[16px] leading-[19.2px] text-white font-bold">${{ cart.total_price | money_without_trailing_zeros }}</p>
+          </div>
+        </div>
+      </div>
+      <button
+        type="submit"
+        id="checkout"
+        class="cart__checkout-button text-[16px] font-inter font-semibold leading-[17.6px] tracking-[-0.32px] text-black button w-full block text-center py-[16px] px-[24px] bg-yellow rounded-[360px] transition-all duration-200 hover:opacity-75"
+        name="checkout"
+        {% if cart == empty %}
+        disabled
+        {% endif %}
+        form="cart">
+        Buy Now
+      </button>
+    </div>
+  </div>
+</div>
+
+
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    function isIE() {
+      const ua = window.navigator.userAgent;
+      const msie = ua.indexOf('MSIE ');
+      const trident = ua.indexOf('Trident/');
+
+      return(msie > 0 || trident > 0);
+    }
+
+    if (! isIE()) 
+      return;
+    
+
+
+
+    const cartSubmitInput = document.createElement('input');
+    cartSubmitInput.setAttribute('name', 'checkout');
+    cartSubmitInput.setAttribute('type', 'hidden');
+    document.querySelector('#cart').appendChild(cartSubmitInput);
+    document.querySelector('#checkout').addEventListener('click', function(event) {
+      document.querySelector('#cart').submit();
+    });
+  });
+</script>
+
+
+{% schema %}
+  {
+    "name": "t:sections.main-cart-footer.name",
+    "class": "cart__footer-wrapper",
+    "blocks": [
+      {
+        "type": "subtotal",
+        "name": "t:sections.main-cart-footer.blocks.subtotal.name",
+        "limit": 1
+      }, {
+        "type": "buttons",
+        "name": "t:sections.main-cart-footer.blocks.buttons.name",
+        "limit": 1
+      }, {
+        "type": "@app"
+      }
+    ]
+  }
+{% endschema %}

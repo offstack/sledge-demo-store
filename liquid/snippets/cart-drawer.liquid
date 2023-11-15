@@ -1,0 +1,374 @@
+{% comment %}
+Renders cart drawer
+
+Usage:
+{% render 'cart-drawer' %}
+{% endcomment %}
+
+<script src="{{ 'cart.js' | asset_url }}" defer="defer"></script>
+
+<style>
+  .drawer {
+    visibility: hidden;
+  }
+</style>
+
+<cart-drawer class="drawer{% if cart == empty %} is-empty {% endif %}">
+  <div id="CartDrawer" class="cart-drawer min-w-full md:min-w-[387px]">
+    <div id="CartDrawer-Overlay" class="cart-drawer__overlay"></div>
+    <div
+      class="drawer__inner bg-dark flex-1 overflow-y-auto px-[20px] py-8"
+      role="dialog"
+      aria-modal="true"
+      aria-label="{{ 'sections.cart.title' | t }}"
+      tabindex="-1">
+      <div class="drawer__header flex items-start justify-between px-3 pb-[13px]">
+        <h2 class="drawer__heading text-white text-lg font-bold lg:text-[24px] leading-[28.8px]" id="slide-over-title">My Cart</h2>
+        <div class="ml-3 flex h-7 items-center">
+          <button
+            class="drawer__close -m-2 bg-dark p-1 rounded-xl"
+            type="button"
+            onclick="this.closest('cart-drawer').close()"
+            aria-label="{{ 'accessibility.close' | t }}">
+            <svg
+              width="24"
+              height="24"
+              viewBox="0 0 25 25"
+              fill="none"
+              xmlns="http://www.w3.org/2000/svg">
+              <path d="M7.13398 19.3248L6.08398 18.2748L11.859 12.4998L6.08398 6.7248L7.13398 5.6748L12.909 11.4498L18.684 5.6748L19.734 6.7248L13.959 12.4998L19.734 18.2748L18.684 19.3248L12.909 13.5498L7.13398 19.3248Z" fill="#9C9C9C" />
+            </svg>
+          </button>
+        </div>
+      </div>
+
+      {%- if cart == empty -%}
+        <div class="drawer__inner-empty px-3">
+          <div class="cart-drawer__warnings center {% if settings.cart_drawer_collection != blank %} cart-drawer__warnings--has-collection{% endif %}">
+            <div class="cart-drawer__empty-content">
+              <div class="cart__warnings flex flex-col space-y-7 justify-center items-center h-screen">
+                <h2 class="whitespace-pre-wrap max-w-prose font-bold text-4xl">Your cart is empty</h2>
+                <div class="flex items-center text-white justify-center gap-x-6 lg:justify-start hover:opacity-70 transition duration-200 mt-[8px] lg:mt-[12px] mb-4">
+                  <a class="w-[178px] flex text-black font-inter text-[14px] font-semibold leading-[15.4px] tracking-[-0.56px] py-[12px] px-[16px] rounded-[323.9px] bg-green" href="/collections/all">
+                    <span>Continue shopping</span>
+                    <svg
+                      class="ml-[8px]"
+                      width="17"
+                      height="17"
+                      viewBox="0 0 17 17"
+                      fill="none"
+                      xmlns="http://www.w3.org/2000/svg">
+                      <path
+                        d="M10.1396 4.50195L14.2356 8.59794L10.1396 12.6939"
+                        stroke="black"
+                        stroke-width="1.5"
+                        stroke-miterlimit="10"
+                        stroke-linecap="round"
+                        stroke-linejoin="round" />
+                      <path
+                        d="M2.76367 8.59766H14.1204"
+                        stroke="black"
+                        stroke-width="1.5"
+                        stroke-miterlimit="10"
+                        stroke-linecap="round"
+                        stroke-linejoin="round" />
+                    </svg>
+                  </a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      {%- endif -%}
+      <cart-drawer-items
+        {% if cart == empty %}
+        class="is-empty"
+        {% else %}
+        class="px-3 pt-[15px]"
+        {% endif %}>
+        <form
+          action="{{ routes.cart_url }}"
+          id="CartDrawer-Form"
+          class="cart__contents cart-drawer__form"
+          method="post">
+          <div id="CartDrawer-CartItems" class="drawer__contents js-contents w-full">
+            <div class="flow-root">
+              {%- if cart != empty -%}
+                <ul role="list" class="divide-y divide-dark8 drawer__cart-items-wrapper">
+                  {%- for item in cart.items -%}
+                    <li class="flex py-[24.86px] cart-item" id="CartDrawer-Item-{{ item.index | plus: 1 }}">
+                      <div class="relative">
+                        <div class="h-16 w-16 flex-shrink-0 overflow-hidden rounded-[8px] bg-dark2">
+                          <img
+                            loading="lazy"
+                            src="{{ item.image | image_url: width: 300 }}"
+                            alt="Product Image"
+                            width="635"
+                            height="560"
+                            class="h-full w-full object-cover object-center">
+                        </div>
+                        <div class="flex absolute top-[-13px] left-[-12.5px]">
+                          <cart-remove-button id="CartDrawer-Remove-{{ item.index | plus: 1 }}" data-index="{{ item.index | plus: 1 }}">
+                            <button
+                              class="button button--tertiary p-[5px] rounded-[360px] border-[0.5px] border-solid border-dark2 bg-dark7"
+                              type="button"
+                              aria-label="{{ 'sections.cart.remove_title' | t: title: item.title }}">
+                              <svg
+                                width="14"
+                                height="14"
+                                viewBox="0 0 14 14"
+                                fill="none"
+                                xmlns="http://www.w3.org/2000/svg">
+                                <path
+                                  d="M12.25 3.48844C10.3075 3.29594 8.35333 3.19678 6.405 3.19678C5.25 3.19678 4.095 3.25511 2.94 3.37178L1.75 3.48844"
+                                  stroke="#6A6A6A"
+                                  stroke-width="0.89611"
+                                  stroke-linecap="round"
+                                  stroke-linejoin="round" />
+                                <path
+                                  d="M4.95801 2.899L5.08634 2.13484C5.17967 1.58067 5.24967 1.1665 6.23551 1.1665H7.76384C8.74967 1.1665 8.82551 1.604 8.91301 2.14067L9.04134 2.899"
+                                  stroke="#6A6A6A"
+                                  stroke-width="0.89611"
+                                  stroke-linecap="round"
+                                  stroke-linejoin="round" />
+                                <path
+                                  d="M10.9946 5.33154L10.6154 11.2057C10.5513 12.1215 10.4988 12.8332 8.87126 12.8332H5.12626C3.49876 12.8332 3.44626 12.1215 3.3821 11.2057L3.00293 5.33154"
+                                  stroke="#6A6A6A"
+                                  stroke-width="0.89611"
+                                  stroke-linecap="round"
+                                  stroke-linejoin="round" />
+                                <path
+                                  d="M6.02734 9.625H7.96984"
+                                  stroke="#6A6A6A"
+                                  stroke-width="0.89611"
+                                  stroke-linecap="round"
+                                  stroke-linejoin="round" />
+                                <path
+                                  d="M5.54395 7.2915H8.46061"
+                                  stroke="#6A6A6A"
+                                  stroke-width="0.89611"
+                                  stroke-linecap="round"
+                                  stroke-linejoin="round" />
+                              </svg>
+                            </button>
+                          </cart-remove-button>
+                        </div>
+                      </div>
+                      <div class="ml-4 flex flex-1 flex-col">
+                        <div>
+                          <div class="flex justify-between text-base font-medium text-gray-900">
+                            <h5 class="text-[16px] leading-[19.2px] font-bold">
+                              <a class="text-white product-title" href="{{ item.url }}">{{ item.product.title | escape }}</a>
+                            </h5>
+
+                            <div class="cart-item__totals right">
+                              <div class="cart-item__price-wrapper text-white font-inter text-[16px] font-bold leading-[19.2px]">
+                                {%- if item.original_line_price != item.final_line_price -%}
+                                  <div class="cart-item__discounted-prices">
+                                    <span class="visually-hidden">
+                                      {{ 'products.product.price.regular_price' | t }}
+                                    </span>
+                                    <s class="cart-item__old-price price price--end">
+                                      {{ item.original_line_price | money_without_trailing_zeros }}
+                                    </s>
+                                    <span class="visually-hidden">
+                                      {{ 'products.product.price.sale_price' | t }}
+                                    </span>
+                                    <span class="price price--end">
+                                      {{ item.final_line_price | money_without_trailing_zeros }}
+                                    </span>
+                                  </div>
+                                {%- else -%}
+                                  <span class="price price--end">
+                                    ${{ item.original_line_price | money_without_trailing_zeros }}
+                                  </span>
+                                {%- endif -%}
+
+                                {%- if item.variant.available and item.unit_price_measurement -%}
+                                  <div class="unit-price caption">
+                                    <span class="visually-hidden">{{ 'products.product.price.unit_price' | t }}</span>
+                                    {{ item.variant.unit_price | money_without_trailing_zeros }}
+                                    <span aria-hidden="true">/</span>
+                                    <span class="visually-hidden">&nbsp;{{ 'accessibility.unit_price_separator' | t }}&nbsp;</span>
+                                    {%- if item.variant.unit_price_measurement.reference_value != 1 -%}
+                                      {{- item.variant.unit_price_measurement.reference_value -}}
+                                    {%- endif -%}
+                                    {{ item.variant.unit_price_measurement.reference_unit }}
+                                  </div>
+                                {%- endif -%}
+                              </div>
+                            </div>
+
+                          </div>
+                          <div class="flex justify-between items-center pt-[8.4px]">
+                            <p class="flex gap-[10px] font-inter font-medium text-dark4 text-[10.8px] leading-[17.27px] tracking-[-0.216px] pl-[9px]">
+                              {%- if item.product.has_only_default_variant == false -%}
+                                {%- for option in item.options_with_values -%}
+                                  <span class="flex gap-[3px]">
+                                    <span>{{ option.name }}:</span>
+                                    <span>{{ option.value }}{% unless forloop.last %},
+                                      {% endunless %}
+                                    </span>
+                                  </span>
+                                {%- endfor -%}
+                              {%- endif -%}
+                            </p>
+                            <div class="flex justify-between text-sm items-center">
+                              <div class="w-fit">
+                                <label for="Quantity" class="sr-only">Quantity</label>
+                                <quantity-input class="quantity flex items-center rounded-[8px] py-[2px] px-[2.5px] border border-dark6">
+                                  <button
+                                    class="quantity__button no-js-hidden flex justify-center items-center text-sledge-color-grey-5 w-[16px] h-[16px] transition hover:opacity-75"
+                                    name="minus"
+                                    type="button">
+                                    <svg
+                                      class="pointer-events-none"
+                                      width="17"
+                                      height="16"
+                                      viewBox="0 0 17 16"
+                                      fill="none"
+                                      xmlns="http://www.w3.org/2000/svg">
+                                      <path
+                                        d="M13.1419 8H3.80859"
+                                        stroke="#393D4E"
+                                        stroke-linecap="round"
+                                        stroke-linejoin="round" />
+                                    </svg>
+                                  </button>
+                                  <input
+                                    class="quantity__input bg-transparent font-sledge-font-family-3 text-sledge-color-primary-black !p-0 text-[12px] leading-[15px] tracking-[-0.02em] md:text-[14px] max-w-[38px] border-transparent text-center [-moz-appearance:_textfield] sm:text-sm [&amp;::-webkit-outer-spin-button]:m-0 [&amp;::-webkit-outer-spin-button]:appearance-none [&amp;::-webkit-inner-spin-button]:m-0 [&amp;::-webkit-inner-spin-button]:appearance-none focus:border-none focus:box-shadow-none"
+                                    type="number"
+                                    name="updates[]"
+                                    value="{{ item.quantity }}"
+                                    min="0"
+                                    aria-label="{{ 'products.product.quantity.input_label' | t: product: item.product.title | escape }}"
+                                    id="Drawer-quantity-{{ item.index | plus: 1 }}"
+                                    data-index="{{ item.index | plus: 1 }}"
+                                    autocomplete="off">
+                                  <button
+                                    class="quantity__button no-js-hidden flex justify-center items-center text-sledge-color-grey-5 w-[16px] h-[16px] transition hover:opacity-75"
+                                    name="plus"
+                                    type="button">
+                                    <svg
+                                      class="pointer-events-none"
+                                      width="17"
+                                      height="16"
+                                      viewBox="0 0 17 16"
+                                      fill="none"
+                                      xmlns="http://www.w3.org/2000/svg">
+                                      <path
+                                        d="M3.80859 7.99967H13.1419M8.47526 3.33301V12.6663"
+                                        stroke="#393D4E"
+                                        stroke-linecap="round"
+                                        stroke-linejoin="round" />
+                                    </svg>
+                                  </button>
+                                </quantity-input>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </li>
+                  {%- endfor -%}
+                </ul>
+              {%- endif -%}
+              <p
+                id="CartDrawer-LiveRegionText"
+                class="visually-hidden hidden"
+                role="status"></p>
+              <p
+                id="CartDrawer-LineItemStatus"
+                class="visually-hidden hidden"
+                aria-hidden="true"
+                role="status">{{ 'accessibility.loading' | t }}</p>
+            </div>
+          </div>
+        </form>
+
+      </cart-drawer-items>
+      <div
+        id="CartDrawer-CartErrors"
+        class="hidden text-red2 mb-1 mt-3"
+        role="alert"></div>
+      {%- if cart != empty -%}
+        <div class="drawer__footer px-3">
+          <div class="pb-[40.11px] divide-y divide-dark8">
+            <div class="flex justify-between py-[24.13px]">
+              <p class="font-inter text-[16px] leading-[19.2px] text-dark4">
+                Taxes
+              </p>
+              <p class="font-inter text-[16px] leading-[19.2px] text-dark4">Calculated at checkout</p>
+            </div>
+            <div class="flex justify-between py-[24.13px]">
+              <p class="font-inter text-[16px] leading-[19.2px] text-dark4">
+                Shipping
+              </p>
+              <p class="font-inter text-[16px] leading-[19.2px] text-dark4">Calculated at checkout</p>
+            </div>
+            <div class="flex justify-between pt-[24.13px]">
+              <p class="font-inter text-[16px] leading-[19.2px] text-dark4">
+                Total
+              </p>
+              <p class="font-inter text-[16px] leading-[19.2px] text-white font-bold">${{ cart.total_price | money_without_trailing_zeros }}</p>
+            </div>
+          </div>
+
+          <div class="cart__ctas" {{ block.shopify_attributes }}>
+            <noscript>
+              <button
+                type="submit"
+                class="cart__update-button button button--secondary"
+                form="CartDrawer-Form">
+                {{ 'sections.cart.update' | t }}
+              </button>
+            </noscript>
+
+            <a class="block font-inter bg-dark9 text-[16px] font-semibold leading-[17.6px] tracking-[-0.32px] text-center text-white mb-[12px] py-[16px] px-[24px] rounded-[360px] transition-all duration-200 hover:opacity-75" href="/cart">
+              <span>View My Cart ({{ cart.items.size }})
+              </span>
+            </a>
+
+            <button
+              type="submit"
+              id="CartDrawer-Checkout"
+              class="cart__checkout-button text-[16px] font-inter font-semibold leading-[17.6px] tracking-[-0.32px] text-black button w-full block text-center py-[16px] px-[24px] bg-yellow rounded-[360px] transition-all duration-200 hover:opacity-75"
+              name="checkout"
+              form="CartDrawer-Form"
+              {% if cart == empty %}
+              disabled
+              {% endif %}>
+              Checkout
+            </button>
+          </div>
+        </div>
+      {% endif %}
+    </div>
+  </div>
+</cart-drawer>
+
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    function isIE() {
+      const ua = window.navigator.userAgent;
+      const msie = ua.indexOf('MSIE ');
+      const trident = ua.indexOf('Trident/');
+
+      return(msie > 0 || trident > 0);
+    }
+
+    if (! isIE()) 
+      return;
+    
+
+
+
+    const cartSubmitInput = document.createElement('input');
+    cartSubmitInput.setAttribute('name', 'checkout');
+    cartSubmitInput.setAttribute('type', 'hidden');
+    document.querySelector('#cart').appendChild(cartSubmitInput);
+    document.querySelector('#checkout').addEventListener('click', function(event) {
+      document.querySelector('#cart').submit();
+    });
+  });
+</script>

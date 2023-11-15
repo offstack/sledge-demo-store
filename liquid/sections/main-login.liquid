@@ -1,0 +1,191 @@
+<div class="max-w-[1170px] mx-auto px-5 lg:px-20 xl:px-0 pt-[1.9rem]">
+  <div class="flex gap-[50px] flex-col lg:flex-row">
+    <div class="hidden lg:flex relative w-full max-w-full lg:max-w-[500px] h-[100vw] md:h-[560px] rounded-[32px]">
+      <span aria-hidden="true" class="absolute inset-0">
+        <img src="/cdn/shop/t/3/assets/green-classic-jacket-beige-women-s-top-with-handbag-women-s-stylish-autumn-spring-trendy-clothes-fashion-concept-flat-lay-top-view.png" class="h-full w-full object-cover object-center rounded-[32px]">
+      </span>
+    </div>
+    <div id="recover-form">
+      {%- form 'recover_customer_password' -%}
+        {% assign recover_success = form.posted_successfully? %}
+        <div class="flex flex-col gap-[20px]">
+          <p class="font-bold text-[24px] md:text-[48px] md:leading-[52.8px] mb-[12px]">Forgot Password</p>
+          <p class="max-w-[594px] font-inter font-medium text-[12px] md:text-[16px] leading-[25.6px] tracking-[-0.32px] text-dark4">
+            Enter the email address associated with your account to receive a
+            link to reset your password.
+          </p>
+          {% assign recover_success = form.posted_successfully? %}
+          <div class="field">
+            <input
+              type="email"
+              value=""
+              name="email"
+              id="RecoverEmail"
+              autocorrect="off"
+              autocapitalize="off"
+              autocomplete="email"
+              class="block bg-dark2 border-none pl-[24px] text-[14px] md:text-[16px] focus:ring-inset focus:border focus:border-solid focus:border-green appearance-none rounded-[12px] focus:ring-0 w-full py-[22px] text-dark4 placeholder:text-dark4 leading-tight focus:shadow-outline "
+              placeholder="Email">
+          </div>
+          {%- if form.errors -%}
+            <small id="RecoverEmail-email-error" class="form__message">
+              <svg
+                aria-hidden="true"
+                focusable="false"
+                role="presentation"
+                viewBox="0 0 13 13">
+                <circle
+                  cx="6.5"
+                  cy="6.50049"
+                  r="5.5"
+                  stroke="white"
+                  stroke-width="2" />
+                <circle
+                  cx="6.5"
+                  cy="6.5"
+                  r="5.5"
+                  fill="#EB001B"
+                  stroke="#EB001B"
+                  stroke-width="0.7" />
+                <path d="M5.87413 3.52832L5.97439 7.57216H7.02713L7.12739 3.52832H5.87413ZM6.50076 9.66091C6.88091 9.66091 7.18169 9.37267 7.18169 9.00504C7.18169 8.63742 6.88091 8.34917 6.50076 8.34917C6.12061 8.34917 5.81982 8.63742 5.81982 9.00504C5.81982 9.37267 6.12061 9.66091 6.50076 9.66091Z" fill="white" />
+                <path
+                  d="M5.87413 3.17832H5.51535L5.52424 3.537L5.6245 7.58083L5.63296 7.92216H5.97439H7.02713H7.36856L7.37702 7.58083L7.47728 3.537L7.48617 3.17832H7.12739H5.87413ZM6.50076 10.0109C7.06121 10.0109 7.5317 9.57872 7.5317 9.00504C7.5317 8.43137 7.06121 7.99918 6.50076 7.99918C5.94031 7.99918 5.46982 8.43137 5.46982 9.00504C5.46982 9.57872 5.94031 10.0109 6.50076 10.0109Z"
+                  fill="white"
+                  stroke="#EB001B"
+                  stroke-width="0.7">
+              </svg>
+            </small>
+          {%- endif -%}
+
+          <div class="flex gap-3 mt-4">
+            <div class="lg:w-fit flex items-center text-white justify-center gap-x-6 lg:justify-start hover:opacity-70 transition duration-200 mt-0 !w-fit ">
+              <button type="submit" class="font-semibold text-black bg-green font-inter text-[12px] md:text-[14px] leading-[15.4px] tracking-[-0.56px] py-[10px] md:py-[12px] px-[14px] md:px-[16px] rounded-[323.9px] disabled:opacity-70">Submit
+                <svg
+                  class="inline ml-[10px]"
+                  width="17"
+                  height="17"
+                  viewBox="0 0 17 17"
+                  fill="none"
+                  xmlns="http://www.w3.org/2000/svg">
+                  <path
+                    d="M10.2373 4.00146L14.3333 8.09745L10.2373 12.1934"
+                    stroke="black"
+                    stroke-width="1.5"
+                    stroke-miterlimit="10"
+                    stroke-linecap="round"
+                    stroke-linejoin="round" />
+                  <path
+                    d="M2.86133 8.09766H14.2181"
+                    stroke="black"
+                    stroke-width="1.5"
+                    stroke-miterlimit="10"
+                    stroke-linecap="round"
+                    stroke-linejoin="round" />
+                </svg>
+              </button>
+            </div>
+
+            <div class="lg:w-fit flex items-center text-white justify-center gap-x-6 lg:justify-center hover:opacity-70 transition duration-200">
+              <a class="text-white font-sledge-font-family-2 text-[12px] md:text-[16px] font-[700] leading-[18px] tracking-[-0.02em] py-[10px] md:py-[14px] px-[20px] md:px-[24px] rounded-[360px] bg-sledge-color-grey-5" href="#login">Cancel
+              </a>
+            </div>
+          </div>
+        </div>
+      {%- endform -%}
+    </div>
+    <div id="login-form" class="flex flex-col flex-auto lg:mt-[20px]">
+      {%- if recover_success == true -%}
+        <h3 class="p-[15px] bg-sledge-color-grey-5 text-white rounded-sm">
+          Reset Password Success
+        </h3>
+      {%- endif -%}
+      <h1 class="font-bold text-[24px] md:text-[48px] md:leading-[52.8px] mb-[12px]">Account login</h1>
+      <p class="max-w-[594px] font-inter font-medium text-[12px] md:text-[16px] leading-[25.6px] tracking-[-0.32px] text-dark4">
+        Please enter your registered email and password to log in and access your account. Once logged in, you can view
+        your order history, update your profile information, and manage your preferences.</p>
+      <div class="mt-[20px] md:mt-[40px] gap-[25px] md:gap-[40px] flex flex-col max-w-[550px]">
+        {%- form 'customer_login', novalidate: 'novalidate', class: 'flex flex-col gap-[25px]' -%}
+          <div class="grid grid-cols-1 gap-[20px] md:gap-[28px] sm:grid-cols-6 md:col-span-2 mb-[20px] md:mb-[22px]">
+            <div class="col-span-full">
+              <label for="CustomerEmail" class="sr-only">Email</label>
+              <input
+                type="email"
+                name="customer[email]"
+                id="CustomerEmail"
+                autocomplete="email"
+                autocorrect="off"
+                autocapitalize="off"
+                placeholder="Email &quot;example@gmail.com&quot;"
+                required=""
+                class="block bg-dark2 border-none pl-[24px] text-[14px] md:text-[16px] focus:ring-inset focus:border focus:border-solid focus:border-green appearance-none rounded-[12px] focus:ring-0 w-full py-[22px] text-dark4 placeholder:text-dark4 leading-tight focus:shadow-outline ">
+            </div>
+            <div class="col-span-full">
+              <label for="CustomerPassword" class="sr-only">Password</label>
+              <input
+                value=""
+                name="customer[password]"
+                id="CustomerPassword"
+                autocomplete="current-password"
+                type="password"
+                placeholder="Password"
+                required=""
+                class="block bg-dark2 border-none pl-[24px] text-[14px] md:text-[16px] focus:ring-inset focus:border focus:border-solid focus:border-green appearance-none rounded-[12px] focus:ring-0 w-full py-[22px] text-dark4 placeholder:text-dark4 leading-tight focus:shadow-outline ">
+            </div>
+            <a class="font-inter font-medium text-[14px] leading-[22px] tracking-[-0.02em] w-max text-dark4" href="#recover">Forgot Password?</a>
+          </div>
+          <div class="flex flex-wrap items-center gap-[20px] md:gap-[24px]">
+            <p class="w-fit font-inter font-medium text-[12px] md:text-[16px] leading-[25.6px] tracking-[-0.32px] text-dark4">Dont have an account?
+              <a class="ml-[1px] text-yellow underline button-hover-state" href="/account/register">Sign Up</a>
+            </p>
+            <div class="lg:w-fit flex items-center text-white justify-center gap-x-6 lg:justify-start hover:opacity-70 transition duration-200 mt-0 !w-fit ">
+              <button type="submit" class="h-fit font-semibold text-black bg-green font-inter text-[14px] leading-[15.4px] tracking-[-0.56px] py-[10px] md:py-[12px] px-[14px] md:px-[16px] rounded-[323.9px] disabled:opacity-70">Login
+                <svg
+                  class="inline ml-[10px]"
+                  width="17"
+                  height="17"
+                  viewBox="0 0 17 17"
+                  fill="none"
+                  xmlns="http://www.w3.org/2000/svg">
+                  <path
+                    d="M10.2373 4.00146L14.3333 8.09745L10.2373 12.1934"
+                    stroke="black"
+                    stroke-width="1.5"
+                    stroke-miterlimit="10"
+                    stroke-linecap="round"
+                    stroke-linejoin="round" />
+                  <path
+                    d="M2.86133 8.09766H14.2181"
+                    stroke="black"
+                    stroke-width="1.5"
+                    stroke-miterlimit="10"
+                    stroke-linecap="round"
+                    stroke-linejoin="round" />
+                </svg>
+              </button>
+            </div>
+          </div>
+        {%- endform -%}
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<script>
+  function eventChangeHashUrl() {
+    if (window.location.href.split('#')[1] === 'recover') {
+      document.querySelector('#login-form').style.display = 'none'
+      document.querySelector('#recover-form').style.display = 'flex'
+    } else {
+      document.querySelector('#login-form').style.display = 'flex'
+      document.querySelector('#recover-form').style.display = 'none'
+    }
+  }
+  eventChangeHashUrl();
+
+  if (window.history) {
+    window.addEventListener('hashchange', function() {
+      eventChangeHashUrl()
+    });
+  }
+</script>

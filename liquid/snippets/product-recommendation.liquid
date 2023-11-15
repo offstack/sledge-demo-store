@@ -1,0 +1,16 @@
+<div class="gap-[36px] flex flex-col mt-[12px]">
+  <h4 class="font-medium text-[24px] leading-[26.4px] tracking-[-0.48px]">You may also like</h4>
+  <div class="flex overflow-scroll gap-x-[30px]">
+    {% assign related_products = product.collections.last.handle %}
+    {% assign recommendation_products = '' %}
+    {% if collections[related_products].products != '' %}
+      {% assign recommendation_products = collections[related_products].products %}
+    {% else %}
+      {% assign recommendation_products = collections['all'].products %}
+    {% endif %}
+    {{ test }}
+    {% for product in recommendation_products %}
+      {% render 'product-card', product: product, additionalClass: 'shrink-0 w-[300px]' %}
+    {% endfor %}
+  </div>
+</div>

@@ -1,0 +1,95 @@
+<div class="max-w-[1170px] mx-auto px-5 lg:px-20 xl:px-0 pt-[1.9rem]">
+  <div class='flex gap-[50px] flex-col lg:flex-row'>
+    <div class="hidden lg:flex relative w-full max-w-full lg:max-w-[500px] h-[100vw] md:h-[560px] rounded-[32px]">
+      <span aria-hidden="true" class="absolute inset-0">
+        <img src="/cdn/shop/t/3/assets/businessowner-always-keep-contact-with-customer.png" class="h-full w-full object-cover object-center rounded-[32px]" />
+      </span>
+    </div>
+    <div class='flex flex-col flex-auto lg:mt-[20px]'>
+      <div class="">
+        <h1 class="font-bold text-[24px] md:text-[48px] md:leading-[52.8px] mb-[12px]">Contact us</h1>
+        <p class="max-w-[594px] font-inter font-medium text-[12px] md:text-[16px] leading-[25.6px] tracking-[-0.32px] text-dark4">
+          We value your feedback, inquiries, and the opportunity to connect with you. Your satisfaction and questions
+          are important to us. Please don't hesitate to get in touch with our dedicated team.
+        </p>
+      </div>
+      {% form 'contact', class: 'mt-[20px] md:mt-[40px] gap-[40px] flex flex-col' %}
+        {{ form.errors | default_errors }}
+        <div class="space-y-12">
+          <div class="grid grid-cols-1 gap-[20px] md:gap-[28px] sm:grid-cols-6 md:col-span-2">
+            <div class="sm:col-span-3">
+              <label for="name" class="sr-only">Name</label>
+              <input
+                type="text"
+                name="contact[first_name]"
+                id="name"
+                autocomplete="on"
+                placeholder="Name"
+                required=""
+                class="block bg-dark2 border-none pl-[24px] text-[14px] md:text-[16px] focus:ring-inset focus:border focus:border-solid focus:border-green appearance-none rounded-[12px] focus:ring-0 w-full py-[22px] text-dark4 placeholder:text-dark4 leading-tight focus:shadow-outline ">
+            </div>
+            <div class="sm:col-span-3">
+              <label for="phone" class="sr-only">Phone Number</label>
+              <input
+                type="tel"
+                name="contact[phone]"
+                id="phone"
+                autocomplete="on"
+                placeholder="Phone Number"
+                required=""
+                class="block bg-dark2 border-none pl-[24px] text-[14px] md:text-[16px] focus:ring-inset focus:border focus:border-solid focus:border-green appearance-none rounded-[12px] focus:ring-0 w-full py-[22px] text-dark4 placeholder:text-dark4 leading-tight focus:shadow-outline ">
+            </div>
+            <div class="col-span-full">
+              <label for="email" class="sr-only">Email</label>
+              <input
+                type="email"
+                name="contact[email]"
+                id="email"
+                autocomplete="on"
+                placeholder="Email &quot;example@gmail.com&quot;"
+                required=""
+                class="block bg-dark2 border-none pl-[24px] text-[14px] md:text-[16px] focus:ring-inset focus:border focus:border-solid focus:border-green appearance-none rounded-[12px] focus:ring-0 w-full py-[22px] text-dark4 placeholder:text-dark4 leading-tight focus:shadow-outline ">
+            </div>
+            <div class="col-span-full">
+              <label for="message" class="sr-only">Add your message</label>
+              <textarea
+                placeholder="Write your message"
+                rows="4"
+                name="contact[body]"
+                id="message"
+                class="block bg-dark2 border-none pl-[24px] text-[14px] md:text-[16px] focus:ring-inset focus:border focus:border-solid focus:border-green appearance-none rounded-[12px] focus:ring-0 w-full py-[22px] text-dark4 placeholder:text-dark4 leading-tight focus:shadow-outline "></textarea>
+            </div>
+          </div>
+        </div>
+        <div class="flex flex-wrap items-center gap-[20px] md:gap-[24px]">
+          <div class="lg:w-fit flex items-center text-white justify-center gap-x-6 lg:justify-start hover:opacity-70 transition duration-200 mt-0 !w-fit">
+            <button type="submit" class="h-fit font-semibold text-black bg-green font-inter text-[14px] leading-[15.4px] tracking-[-0.56px] py-[10px] md:py-[12px] px-[14px] md:px-[16px] rounded-[323.9px] disabled:opacity-70">Send
+              <svg
+                class="inline ml-[10px]"
+                width="17"
+                height="17"
+                viewBox="0 0 17 17"
+                fill="none"
+                xmlns="http://www.w3.org/2000/svg">
+                <path
+                  d="M10.2373 4.00146L14.3333 8.09745L10.2373 12.1934"
+                  stroke="black"
+                  stroke-width="1.5"
+                  stroke-miterlimit="10"
+                  stroke-linecap="round"
+                  stroke-linejoin="round" />
+                <path
+                  d="M2.86133 8.09766H14.2181"
+                  stroke="black"
+                  stroke-width="1.5"
+                  stroke-miterlimit="10"
+                  stroke-linecap="round"
+                  stroke-linejoin="round" />
+              </svg>
+            </button>
+          </div>
+        </div>
+      {% endform %}
+    </div>
+  </div>
+</div>

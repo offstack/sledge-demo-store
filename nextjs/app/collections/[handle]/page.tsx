@@ -1,5 +1,5 @@
-import ProductFilter from "components/sledge/instantsearch/product-filter-page";
-import { getCollection } from "lib/shopify";
+import ProductFilter from 'components/sledge/instantsearch/product-filter-page';
+import { getCollection } from 'lib/shopify';
 
 export default async function Page({ params, searchParams }: any) {
   const collection: any = await getCollection(params.handle);

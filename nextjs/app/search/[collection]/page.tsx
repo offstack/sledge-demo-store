@@ -9,7 +9,7 @@ import { defaultSort, sorting } from 'lib/constants';
 export const runtime = 'edge';
 
 export async function generateMetadata({
-  params
+  params,
 }: {
   params: { collection: string };
 }): Promise<Metadata> {
@@ -20,20 +20,27 @@ export async function generateMetadata({
   return {
     title: collection.seo?.title || collection.title,
     description:
-      collection.seo?.description || collection.description || `${collection.title} products`
+      collection.seo?.description ||
+      collection.description ||
+      `${collection.title} products`,
   };
 }
 
 export default async function CategoryPage({
   params,
-  searchParams
+  searchParams,
 }: {
   params: { collection: string };
   searchParams?: { [key: string]: string | string[] | undefined };
 }) {
   const { sort } = searchParams as { [key: string]: string };
-  const { sortKey, reverse } = sorting.find((item) => item.slug === sort) || defaultSort;
-  const products = await getCollectionProducts({ collection: params.collection, sortKey, reverse });
+  const { sortKey, reverse } =
+    sorting.find((item) => item.slug === sort) || defaultSort;
+  const products = await getCollectionProducts({
+    collection: params.collection,
+    sortKey,
+    reverse,
+  });
 
   return (
     <section>

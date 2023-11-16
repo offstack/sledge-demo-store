@@ -78,6 +78,8 @@ export default async function Page({
               className="w-full h-[450px] object-cover"
               loading="eager"
               alt={"Article Image"}
+              blurDataURL="URL"
+              placeholder="blur"
             />
           )}
         </div>

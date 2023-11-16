@@ -32,6 +32,8 @@ export function CollectionCard({
         alt={collection.title}
         width={imageSize.split("w-[")[1].split("] h-[")[0].split("px")[0]}
         height={100}
+        blurDataURL="URL"
+        placeholder="blur"
       />
     </Link>
   );

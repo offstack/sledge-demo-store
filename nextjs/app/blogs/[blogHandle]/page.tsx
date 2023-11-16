@@ -70,6 +70,8 @@ function ArticleItem({
                   height: "300px",
                   objectFit: "cover",
                 }}
+                blurDataURL="URL"
+                placeholder="blur"
               />
             </div>
           </Link>

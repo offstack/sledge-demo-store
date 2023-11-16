@@ -9,7 +9,7 @@ interface ILink extends LinkProps {
 
 export default function Link({ children, ...props }: ILink) {
   return (
-    <NextLink prefetch={false} {...props}>
+    <NextLink prefetch={true} {...props}>
       {children}
     </NextLink>
   );

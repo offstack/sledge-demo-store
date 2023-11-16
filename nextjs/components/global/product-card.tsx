@@ -50,6 +50,9 @@ export function ProductCard({ product }: IProductCard) {
             sizes="(min-width: 45em) 20vw, 100vw"
             width={featuredImage.width}
             height={featuredImage.height}
+            blurDataURL="URL"
+            placeholder="blur"
+            priority={true}
           />
         </div>
         <div className="mt-[16px] space-y-[8px] px-[16px] pb-[16.69px]">

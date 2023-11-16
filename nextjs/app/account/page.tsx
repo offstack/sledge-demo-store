@@ -106,6 +106,8 @@ function OrderCard({ order }: any) {
                 lineItems.edges[0].node.variant?.image?.altText ?? "Order image"
               }
               src={lineItems.edges[0].node.variant?.image.url}
+              blurDataURL="URL"
+              placeholder="blur"
             />
           </div>
         )}

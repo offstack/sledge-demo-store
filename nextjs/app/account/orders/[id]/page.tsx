@@ -85,6 +85,8 @@ export default async function Page({ params, searchParams }: any) {
                                   "Product image"
                                 }
                                 src={lineItem.variant.image?.src}
+                                blurDataURL="URL"
+                                placeholder="blur"
                               />
                             </div>
                           )}

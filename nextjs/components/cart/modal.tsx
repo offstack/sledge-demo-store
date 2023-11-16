@@ -157,6 +157,8 @@ export default function CartModal({
                                           item.merchandise.product.title
                                         }
                                         src={item.merchandise.image.url}
+                                        blurDataURL="URL"
+                                        placeholder="blur"
                                       />
                                     </div>
                                     <div className="flex absolute top-[-13px] left-[-12.5px]">
